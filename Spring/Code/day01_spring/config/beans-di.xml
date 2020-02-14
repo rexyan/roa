@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- 通过 set 方法为属性赋值  -->
@@ -25,5 +26,23 @@
 		<constructor-arg value="wangwu"></constructor-arg>
 		<constructor-arg value="90" index="2" type="java.lang.Double"></constructor-arg>
 		<constructor-arg value="女"></constructor-arg>
+	</bean>
+	
+	<!-- P 命名空间  -->
+	<bean id="s4" class="com.itguigu.spring.di.Student" p:age="20" p:id="10098" p:name="zhaoliu" p:score="99"></bean>
+	
+	<!-- 通过 ref 为 bean 的应用数据类型属性赋值 -->
+	<bean id="s5" class="com.itguigu.spring.di.Student">
+		<property name="id" value="1001"></property>
+		<property name="name" value="zhangsan"></property>
+		<property name="age" value="23"></property>
+		<property name="sex" value="男"></property>
+		<property name="score" value="99"></property>
+		<property name="teacher"  ref="teacher"></property>
+	</bean>
+	
+	<bean id="teacher" class="com.itguigu.spring.di.Teacher">
+		<property name="tname" value="王老师"></property>
+		<property name="tage" value="66"></property>
 	</bean>
 </beans>
