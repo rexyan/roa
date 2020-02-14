@@ -7,5 +7,9 @@
 		<property name="id" value="1001"></property>
 		<property name="name" value="zhangsan"></property>
 	</bean>
-
+	
+	<bean id="person2" class="com.itguigu.spring.mod.Person">
+		<property name="id" value="2002"></property>
+		<property name="name" value="lisis"></property>
+	</bean>
 </beans>
