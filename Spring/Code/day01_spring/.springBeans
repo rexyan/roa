@@ -9,6 +9,7 @@
 	<configs>
 		<config>config/applicationContext.xml</config>
 		<config>config/beans-di.xml</config>
+		<config>config/factory-bean.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

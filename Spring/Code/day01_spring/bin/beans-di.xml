@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 	
 	<!-- 通过 set 方法为属性赋值  -->
 	<bean id="s1" class="com.itguigu.spring.di.Student">
@@ -45,4 +47,109 @@
 		<property name="tname" value="王老师"></property>
 		<property name="tage" value="66"></property>
 	</bean>
+	
+	<!-- 内部 bean -->
+	<bean id="s6" class="com.itguigu.spring.di.Student">
+		<property name="id" value="1001"></property>
+		<property name="name" value="zhangsan"></property>
+		<property name="age" value="23"></property>
+		<property name="sex" value="男"></property>
+		<property name="score" value="99"></property>
+		<property name="teacher">
+			<!-- 定义在某个 bean 内部的 bean，只能在当前 bean 中使用，其他 bean 是无法引用此 bean 的。  -->
+			<bean id="ttt" class="com.itguigu.spring.di.Teacher">
+				<property name="tname" value="李老师"></property>
+				<property name="tage" value="99"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 为 List 集合赋值 -->
+	<bean id="t1" class="com.itguigu.spring.di.Teacher">
+		<property name="tname" value="长老师"></property>
+		<property name="tage" value="23"></property>
+		<property name="cls">
+			<list>
+				<value>A</value>
+				<value>B</value>
+				<value>C</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 为 List 集合赋值 -->
+	<bean id="t2" class="com.itguigu.spring.di.Teacher">
+		<property name="tname" value="长老师"></property>
+		<property name="tage" value="23"></property>
+		<property name="students">
+			<list>
+				<ref bean="s1"/>
+				<ref bean="s2"/>
+				<ref bean="s3"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 为 Map 集合赋值 -->
+	<bean id="t3" class="com.itguigu.spring.di.Teacher">
+		<property name="tname" value="五老师"></property>
+		<property name="tage" value="45"></property>
+		<property name="bossMap">
+			<map>
+				<entry>
+					<key>
+						<value>10001</value>
+					</key>
+					<value>王校长</value>
+				</entry>
+				<entry>
+					<key>
+						<value>10002</value>
+					</key>
+					<value>李局长</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	
+	
+	<bean id="t4" class="com.itguigu.spring.di.Teacher">
+		<property name="tname" value="美老师"></property>
+		<property name="tage" value="28"></property>
+		<!-- 直接应用创建好的集合类型的 bean -->
+		<property name="students" ref="students"></property>
+	</bean>
+	
+	<!-- 集合类型的bean -->
+	<util:list id="students">
+		<ref bean="s4"/>
+		<ref bean="s5"/>
+		<ref bean="s5"/>
+	</util:list>
+	
+	<!-- map -->
+	<util:map id="map">
+		<entry>
+			<key>
+				<value>1</value>
+			</key>
+			<value>张三</value>
+		</entry>
+		<entry>
+			<key>
+				<value>2</value>
+			</key>
+			<value>李四</value>
+		</entry>
+	</util:map>
+	
+	<!-- set -->
+	<util:set id="set">
+		  <value>张三</value>
+          <value>王五</value>
+          <value>赵六</value>
+	</util:set>
+	
+	
 </beans>
