@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 为bean指定初始化和销毁方法  -->
+	<bean id="person" class="com.itguigu.ioc.life.Person" init-method="init" destroy-method="destory">
+		<property name="id" value="10001"></property>
+		<property name="sex" value="男"></property>
+		<property name="name" value="张三"></property>
+	</bean>
+	
+	<!-- 应用后置处理器 -->
+	<bean class="com.itguigu.ioc.life.AfterHandler"> </bean>
+	
+</beans>

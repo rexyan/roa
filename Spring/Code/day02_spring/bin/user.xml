@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	<!-- 扫描组件，这样 Spring 才能管理有 @Controller，@Service，@Respository 的类，让其成为 spring 能管理的组件（bean） -->
+	<!-- 也就是说加上注解后，Spring 会自动生成相应的 bean。且生成的 bean 的 id 是类名首字母的小写，即 userController, userServiceImpl, userDaoImpl -->
+	<!-- base-package 是包路径 -->
+	
+	
+	<context:component-scan base-package="com.itguigu.ioc.userMod" use-default-filters="true">
+		<!-- 使用 include-filter 的时候，需要将 use-default-filters 设置为 false， 默认为 true 是全部扫描 -->
+		<!-- annotation: 是根据注解类型进行设置。这里允许扫描 com.itguigu.ioc.userMod 包下，有 Controller 类型的注解的类 -->
+		<!-- <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
+		
+		<!-- assignable: 是根据类名称进行设置。这里允许扫描 com.itguigu.ioc.userMod.service.UserServiceImpl -->
+		<!-- <context:include-filter type="assignable" expression="com.itguigu.ioc.userMod.service.UserServiceImpl"/> -->
+		
+		<!-- 使用 include-filter 的时候，需要将 use-default-filters 设置为 false，或者直接去掉 -->
+		<!-- annotation: 是根据注解类型进行设置。这里不允许扫描 com.itguigu.ioc.userMod 包下，有 Repository 类型的注解的类 -->
+		<!-- <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/> -->
+		<!-- <context:exclude-filter type="assignable" expression="com.itguigu.ioc.userMod.dao.UserDaoImpl"/> -->
+	</context:component-scan>
+	
+</beans>

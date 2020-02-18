@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 以前的手动装配 -->
+<!-- 	<bean id="emp" class="com.itguigu.ioc.auto.Emp">
+		<property name="eid" value="1001"></property>
+		<property name="ename" value="zhangsan"></property>
+		<property name="car" ref="car"></property>   引用已经有的 bean
+		<property name="dept" ref="dept"></property> 引用已经有的 bean
+	</bean> -->
+	
+	<!--  自动装配 byName，bean id 和属性名一致就行，所以下面省略了car 和 dept 
+	<bean id="emp" class="com.itguigu.ioc.auto.Emp" autowire="byName">
+		<property name="eid" value="1001"></property>
+		<property name="ename" value="zhangsan"></property>
+		因为 bean id 和属性名一致，所以这里省略了car 和 dept
+	</bean> -->
+	
+	<bean id="emp" class="com.itguigu.ioc.auto.Emp" autowire="byType">
+		<property name="eid" value="1001"></property>
+		<property name="ename" value="zhangsan"></property>
+	</bean>
+	
+	<bean id="car1" class="com.itguigu.ioc.auto.Car">
+		<property name="cid" value="66666"></property>
+		<property name="cname" value="二手奥拓"></property>
+	</bean>
+	
+	<bean id="dept1" class="com.itguigu.ioc.auto.Dept">
+		<property name="did" value="22202"></property>
+		<property name="dname" value="市场运营"></property>
+	</bean>
+	
+</beans>
