@@ -75,13 +75,27 @@ public class EmpController {
 		return "update";
 	}
 	
-	
+	/**
+	 * 修改员工信息
+	 * @param employee
+	 * @return
+	 */
 	@RequestMapping(value = "/emp", method = RequestMethod.PUT)
 	public String updateEmp(Employee employee) {
 		// 修改员工信息
 		employeeDao.save(employee);
-		
 		// 重定向到 list 页面
+		return "redirect:/emps";
+	}
+	
+	/**
+	 * 删除员工信息
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/emp/{id}",method=RequestMethod.DELETE)
+	public String deleteEmp(@PathVariable("id") Integer id) {
+		employeeDao.delete(id);
 		return "redirect:/emps";
 	}
 	

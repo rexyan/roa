@@ -8,6 +8,19 @@
 <title>展示员工信息</title>
 </head>
 <link rel="stylesheet" href="${pageContext.servletContext.contextPath }/css/index_work.css" />
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+	$(function () {
+		$(".del").click(function () {
+			//submit()将所获得的form元素提交
+			if(confirm("确认删除吗？")){
+				$("form").attr("action", this.href).submit();//$(this).attr("href")
+				return false;
+			}
+			return false;//将超链接的默认行为取消
+		});
+	});//预加载函数或文档就绪函数
+</script>
 
 <body>
 	<table>
@@ -27,12 +40,17 @@
 				<td> ${emp.gender==0?'女':'男'} </td>
 				<td> ${emp.department.departmentName} </td>
 				<td> 
-					<a href="emp/${ emp.id }"> 修改 </a>
-					<a href="emp"> 删除 </a>
+					<a href="emp/${emp.id }">UPDATE</a>
+					<a class="del" href="emp/${emp.id }">DELETE</a>
 				</td>
 			</tr>
 		</c:forEach>
-		
 	</table>
+	
+	<!-- 删除表单 -->
+	<form method="post">
+		<input type="hidden" name="_method" value="DELETE" />
+	</form>
+	
 </body>
 </html>
