@@ -16,7 +16,13 @@
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 	
-	<!-- 如果遇到静态资源问题，那么将静态资源交给 tomcat 默认的 servlet 来处理 -->
+	<!-- 配置 Tomcat 中默认的 Servlet。DefaultServlet -->
+	<!-- 这里需要注意的是，当 DefaultServlet 的 <url-pattern> 和开发人员所配置的 Servlet 的 <url-pattern> 相同时，以开发人员的为主 
+		 所以这里就出现了静态资源不能被正确请求的问题，因为 DefaultServlet 的 <url-pattern> 是 /
+		 而我们的 Servlet 的配置也是 /
+		 所以静态资源就会走我们所配置的 DispatcherServlet 进行记载，所以会出现请求不正确的问题。
+		 
+	-->
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven />
 	

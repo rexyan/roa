@@ -95,8 +95,8 @@ public class EmpController {
 	 */
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.DELETE)
 	public String deleteEmp(@PathVariable("id") Integer id) {
+		System.out.println("id" + id);
 		employeeDao.delete(id);
 		return "redirect:/emps";
-	}
-	
+	}	
 }
