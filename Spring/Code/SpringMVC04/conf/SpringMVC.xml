@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	
+	<context:component-scan base-package="com.auguigu"></context:component-scan>
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 处理静态资源 -->
+	<mvc:default-servlet-handler/>
+	<!-- 开启 MVC 驱动 -->
+	<!-- 开启 SpringMVC 自动将 Java 对象转换为 Json 的能力。（使用的是 jackson，需要导入 jar 包） -->
+	<mvc:annotation-driven/>
+	
+	<!-- 处理文件，将客户端上传的 File 文件处理为 MultipartFile。
+		 id 的值必须为 multipartResolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置文件解析编码，需要和页面的配置保持一致 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 设置上传文件的最大大小，不支持表达式 -->
+		<property name="maxUploadSize" value="99999999"></property>
+	</bean>
+	
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<!-- 第一种方式 -->
+		<!-- <bean class="com.auguigu.interceptor.FirstInterceptor"></bean> -->
+		
+		<!-- 第二种方式，在 FirstInterceptor 类上加上 @Component 注解，然后使用 ref 引入-->
+		<ref bean="firstInterceptor"/>
+		<bean class="com.auguigu.interceptor.SecondInterceptor"></bean>
+		
+		<!-- 设置自定义拦截方式 -->  
+		<!-- <mvc:interceptor>
+			<bean></bean> 拦截器 bean
+			<mvc:mapping path=""/>  自定义拦截路径
+			<mvc:exclude-mapping path=""/>   自定义不拦截路径
+		</mvc:interceptor> -->
+	</mvc:interceptors>
+</beans>
