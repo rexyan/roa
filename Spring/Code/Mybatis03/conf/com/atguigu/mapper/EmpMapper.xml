@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.mapper.EmpMapper">
+	<!-- 使用二级缓存 -->
+	<!-- <cache/> -->
+	
+	<!-- 使用第三方二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+	
+	<!--List<Emp> getEmpListByMultipleCondition();-->
+	<select id="getEmpListByMultipleCondition" resultType="Emp">
+		select eid, ename, age, sex, did from emp 
+		<where>
+			<if test="eid != null">
+				and eid = #{eid}
+			</if>
+			<if test="ename != null and ename!=''">
+				and ename = #{ename}
+			</if>
+			<if test="age != null">
+				and age = #{age}
+			</if>
+			<if test="sex == 1 or sex == 0">
+				and sex = #{sex}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getEmpListByMultipleCondition2" resultType="Emp">
+		select eid, ename, age, sex, did from emp 
+		<trim prefix="where" suffixOverrides="and|or">
+			<if test="eid != null">
+				eid = #{eid} and 
+			</if>
+			<if test="ename != null and ename!=''">
+				ename = #{ename} and 
+			</if>
+			<if test="age != null">
+				age = #{age} or 
+			</if>
+			<if test="sex == 1 or sex == 0">
+				sex = #{sex} 
+			</if>
+		</trim>
+	</select>
+	
+	<update id="updateEmpByMutipleCondition">
+		update emp
+		<set>
+			<if test="ename != null and ename!=''">
+				ename=#{ename}, 
+			</if>
+			<if test="age != null">
+				age = #{age},
+			</if>
+			<if test="sex == 1 or sex == 0">
+				sex = #{sex} 
+			</if>
+		</set>
+		where eid = #{eid}
+	</update>
+	
+	<!-- List<Emp> getEmpListByChoose(Emp emp); -->
+	<select id="getEmpListByChoose" resultType="Emp">
+		select eid, ename, age, sex from emp
+		where
+		<choose>
+			<when test="eid != null">
+				eid=#{eid}
+			</when>
+			<when test="ename != null and ename!=''">
+				ename=#{ename}
+			</when>
+			<when test="age != null">
+				age=#{age}
+			</when>
+			<otherwise>
+				sex = #{sex} 
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<!-- void insertEmp(Emp emp); -->
+	<insert id="insertEmp">
+		insert into emp values(
+			null, 
+			#{ename},
+			#{age},
+			<choose>
+				<when test="sex == 0">
+					'nv',
+				</when>
+				<when test="sex == 1">
+					'nan',
+				</when>
+				<otherwise>
+					'unknow',
+				</otherwise>
+			</choose>
+			#{did}
+		)
+	</insert>
+	
+	
+	<!-- void deleteMutipleEmp(String eids); -->
+	<delete id="deleteMutipleEmp">
+		delete from emp where eid in (${value})
+	</delete>
+	
+	<!-- void deleteMutipleEmpByList(List<Integer> eids); -->
+	<delete id="deleteMutipleEmpByList">
+		<!-- 方式1 -->
+		<!-- delete from emp where eid in 
+		(
+			<foreach collection="list" item="eid" separator=","> 
+				#{eid}
+			</foreach>
+		) -->
+		
+		<!-- 方式2 -->
+		<!-- delete from emp where eid in
+		<foreach collection="list" item="eid" separator="," open="(" close=")"> 
+			#{eid}
+		</foreach> -->
+		
+		<!-- 方式3 -->
+		delete from emp where
+		<foreach collection="list" item="eid" separator="or"> 
+			eid = #{eid}
+		</foreach>
+	</delete>
+	
+	<sql id="insertMutipleEmpColumns">
+		 emp value
+	</sql>
+	
+	<!-- void insertMutipleEmp(Emp[] emps); -->
+	<insert id="insertMutipleEmp">
+		insert into 
+		<include refid="insertMutipleEmpColumns"></include>
+		<foreach collection="array" item="empItem" separator=",">
+			(null, #{empItem.ename}, #{empItem.age}, #{empItem.sex}, 1)
+		</foreach>
+	</insert>
+	
+	<!-- void updateMutipleEmp(Emp[] emps); -->
+	<update id="updateMutipleEmp">
+		<foreach collection="array" item="empItem">
+			update emp set ename=#{empItem.ename}, age=#{empItem.age}, sex=#{empItem.sex} where eid = #{empItem.eid};
+		</foreach>
+	</update>
+	
+	<!-- Emp getEmpByEid(String eid); -->
+	<select id="getEmpByEid" resultType="Emp">
+		select eid, ename, age, sex, did from emp where eid = #{eid}
+	</select>
+	
+</mapper>

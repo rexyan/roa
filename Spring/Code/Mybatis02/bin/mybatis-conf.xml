@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+ 
+<configuration>
+	<!-- 加载外部文件到 properties -->
+	<properties resource="jdbc.properties"></properties>
+		
+	<settings>
+		<!-- 下划线转驼峰 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- 开启延迟加载 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 设置加载的数据是按需还是全部 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+	
+	<typeAliases>
+		<!-- 表示 com.atguigu.bean 下所有的类都会被创建别名 -->
+		<package name="com.atguigu.bean"/>
+	</typeAliases>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" /> <!-- 使用 JDBC 原生的事务管理方式，即提交和回滚都需要手动处理 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 引入映射文件 -->
+	<mappers>
+		<!-- <mapper resource="EmpMapper.xml" />
+		<mapper resource="DeptMapper.xml" /> -->
+		
+		<!-- 使用 package 指定路径下的所有映射文件，而不是一个一个的引入。
+		     但是这种写法必须将 mapper接口 和 mapper xml 映射文件放到同一个包下 
+		-->
+		<package name="com.atguigu.mapper"/>
+	</mappers>
+</configuration>

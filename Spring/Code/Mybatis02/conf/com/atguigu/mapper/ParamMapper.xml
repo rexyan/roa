@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.mapper.ParamMapper">
+	<!-- void insertEmp(Emp emp); -->
+	<!-- 
+		useGeneratedKeys 默认就是 true，代表可以支持自动生成主键的字段
+	 	keyProperty 代表将新增的主键值赋值给 实体类中的哪一个字段
+	 -->
+	<insert id="insertEmp" useGeneratedKeys="true" keyProperty="eid">
+		insert into emp values(null, #{ename}, #{age}, #{sex})
+	</insert>
+	
+	<!-- Emp getEmpById(String eid); -->
+	<select id="getEmpById" resultType="Emp">
+		select eid, ename, age, sex from emp where eid = #{eid}
+	</select>
+	
+	<!-- getEmpByEidAndEname -->
+	<select id="getEmpByEidAndEname" resultType="Emp">
+		select eid, ename, age, sex from emp where eid = #{param1} and ename = #{param2} 
+	</select>
+	
+	<!-- Emp getEmpByMap(Map<String, Object> map); -->
+	<select id="getEmpByMap" resultType="Emp">
+		select eid, ename, age, sex from emp where eid = #{eid} and ename = #{ename} 
+	</select>
+	
+	<!-- getEmpByEidAndEnameByParam -->
+	<select id="getEmpByEidAndEnameByParam" resultType="Emp">
+		select eid, ename, age, sex from emp where eid = #{eid} and ename = #{ename} 
+	</select>
+</mapper>

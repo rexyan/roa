@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.mapper.EmpDeptMapper">
+	
+	<!-- 自定义映射（一般使用得很少） -->
+<!-- 	<resultMap type="Emp" id="empMap">
+		主键使用 id
+		<id column="eid" property="eid"/>
+		非主键使用 result
+		<result column="ename" property="ename"/>
+		<result column="sex" property="sex"/>
+		<result column="did" property="dept.did"/>
+		<result column="dname" property="dept.dname"/>
+		<result column="age" property="age"/>
+	</resultMap> -->
+	
+	<resultMap type="Emp" id="empMap">
+		<id column="eid" property="eid"/>
+		<result column="ename" property="ename"/>
+		<result column="sex" property="sex"/>
+		<result column="age" property="age"/>
+		<association property="dept" javaType="Dept">
+			<id column="did" property="did"/>
+		<result column="dname" property="dname"/>
+		</association>
+	</resultMap>
+	
+	<!-- List<Emp> getAllEmp(); -->
+	<select id="getAllEmp" resultMap="empMap">
+		select e.eid, e.ename, e.age, e.sex, e.did, d.dname from emp e left join dept d on e.did = d.did
+	</select>
+	
+	<!-- 分步查询。这里表示先通过 eid 查询员工信息，然后在拿着员工信息中的 did 去 Dept 中查询对应的 dept 信息 -->
+	<resultMap type="Emp" id="empMapStep">
+		<id column="eid" property="eid"/>
+		<result column="ename" property="ename"/>
+		<result column="sex" property="sex"/>
+		<result column="age" property="age"/>
+		<!-- 
+			 select 表示分步查询的 SQL id，即接口的全限定名.方法名。 
+			 column 表示要将哪个字段的值传入 getDeptByDid 中进行查询 
+		-->
+		<association property="dept" select="com.atguigu.mapper.DeptMapper.getDeptByDid" column="did"/>
+	</resultMap>
+	<select id="getEmpStep" resultMap="empMapStep">
+		select eid, ename, age, sex, did from emp where eid = #{eid}
+	</select>
+	
+	<!--Dept getDeptEmpsByDid(String did);  -->
+	<resultMap type="Dept" id="deptMap">
+		<id column="did" property="did"/>
+		<result column="dname" property="dname"/>
+		<!-- 
+			注意这里和多对一不同，这里是一对多，所以这里要用 collection。
+			而且这里不用 javaType，而要用 ofType，用来表示 collection 中存的是什么 
+		-->
+		<collection property="emps" ofType="Emp">
+			<id column="eid" property="eid"/>
+			<result column="ename" property="ename"/>
+			<result column="age" property="age"/>
+			<result column="sex" property="sex"/>
+		</collection>
+	</resultMap>
+	<select id="getDeptEmpsByDid" resultMap="deptMap">
+		select d.did, d.dname, e.eid, e.ename, e.age, e.sex from dept d left join emp e on d.did = e.did where d.did = #{did}
+	</select>
+	
+	<!-- Dept getOnlyDeptByDid(String did); -->
+	<resultMap type="Dept" id="deptMapStep">
+		<id column="did" property="did"/>
+		<result column="dname" property="dname"/>
+		<collection property="emps" select="com.atguigu.mapper.EmpMapper.getEmpListByDid" column="did" fetchType="eager"/>
+	</resultMap>
+	<select id="getOnlyDeptByDid" resultMap="deptMapStep">
+		select did, dname from dept where did = #{did}
+	</select>
+	
+</mapper>

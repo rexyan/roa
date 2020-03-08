@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.mapper.UserMapper">
+	<!-- 定义查询语句，id 设置 SQL 语句的唯一标识。resultType 代表结果类型 -->
+	<select id="getUserByUid" resultType="com.atguigu.bean.User">
+		<!-- 
+			select * from user where uid = ${value}  
+			SQL 语句还可以是上面的样子，${value} 创建出来的是 Statement 对象，#{变量名} 创建出来的是 PreparedStatement 对象
+			即：
+				${value} - Statement - 字符串拼接的方式
+				#{变量名} - PreparedStatement - 通配符赋值的方式
+				在 SQL 语句中有两类不能使用通配符 ？赋值。第一类是批量删除和批量修改。第二类是模糊查询。因为使用通配符赋值（通配符赋值其实相当于 PreparedStatement 的方式, 字符串拼接相当于 Statement 的方式）会默认在赋值字符串的两边加上单引号。导致 SQL 发生变化。
+		-->
+		
+		select uid, user_name, password, age, sex from user where uid = #{id}
+	</select>
+</mapper>
