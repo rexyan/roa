@@ -21,8 +21,7 @@
 			</dl></li>
 	</ul>
 	<ul class="layui-nav layui-layout-right">
-		<li class="layui-nav-item"><a href="javascript:;"> <img
-				src="http://t.cn/RCzsdCq" class="layui-nav-img"> 张无忌
+		<li class="layui-nav-item"><a href="javascript:;"> <img src="http://t.cn/RCzsdCq" class="layui-nav-img"> 张无忌
 		</a>
 			<dl class="layui-nav-child">
 				<dd>
@@ -32,6 +31,11 @@
 					<a href="">安全设置</a>
 				</dd>
 			</dl></li>
-		<li class="layui-nav-item"><a href="">退出</a></li>
+		<li class="layui-nav-item">
+			<form id="logoutForm" action="${PATH }/doLogout" method="POST">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				<a onclick="$('#logoutForm').submit()">退出</a>
+			</form>
+		</li>
 	</ul>
 </div>

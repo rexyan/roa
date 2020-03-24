@@ -25,6 +25,8 @@
 			<div class="layadmin-user-login-box layadmin-user-login-header">
 				<h2>layuiAdmin</h2>
 				<p>layui 官方出品的单页面后台管理模板系统</p>
+				<p>${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			</div>
 			<div
 				class="layadmin-user-login-box layadmin-user-login-body layui-form">
@@ -60,7 +62,7 @@
 					</div>
 				</div>
 				<div class="layui-form-item" style="margin-bottom: 20px;">
-					<input type="checkbox" name="remember" lay-skin="primary"
+					<input type="checkbox" name="remember-me" lay-skin="primary"
 						title="记住密码"> <a href="forget.html"
 						class="layadmin-user-jump-change layadmin-link"
 						style="margin-top: 7px;">忘记密码？</a>
