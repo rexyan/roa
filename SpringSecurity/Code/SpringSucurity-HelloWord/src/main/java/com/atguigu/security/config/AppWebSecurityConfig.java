@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
+@EnableGlobalMethodSecurity(prePostEnabled = true) // 开启细粒度的全局方法级别的权限控制
 @Configuration // 声明当前类是一个配置类，相当于 xml 配置文件作用
 @EnableWebSecurity // 启用 SpringSecurity 安全机制
 public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -56,9 +58,9 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		// 实验5，基于角色的访问控制
 		http.authorizeRequests().antMatchers("/layui/**", "/index.jsp").permitAll()
-		.antMatchers("/level1/**").hasRole("学徒")
-		.antMatchers("/level2/**").hasRole("大师")
-		.antMatchers("/level3/**").hasRole("宗师")
+		// .antMatchers("/level1/**").hasRole("学徒")
+		// .antMatchers("/level2/**").hasRole("大师")
+		// .antMatchers("/level3/**").hasRole("宗师")
 		.anyRequest().authenticated();
 		
 		// 实验2，默认及自定义登录页面
