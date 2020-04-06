@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.itguigu.springboot</groupId>
+	<artifactId>springboot-hello</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>springboot-hello</name>
+
+	<!-- 所有的 SpringBoot 项目都需要继承 spring-boot-starter-parent 父工程 -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.6.RELEASE</version>
+	</parent>
+
+	<!-- 引用 web 模块，引用了 SpringMVC，和 Tomcat 等 -->
+	<dependencies>
+		<!-- starter 被称为 “场景启动器” Springboot 提供了很多的 starter 模块 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+	</dependencies>
+
+	<!-- 引入springboot插件；打包插件 -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
