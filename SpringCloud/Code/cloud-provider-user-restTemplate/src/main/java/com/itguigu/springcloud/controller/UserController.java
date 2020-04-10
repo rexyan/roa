@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import com.itguigu.springcloud.bean.Movie;
 import com.itguigu.springcloud.bean.User;
 import com.itguigu.springcloud.service.UserService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 public class UserController {
@@ -38,6 +39,7 @@ public class UserController {
 	 * @param movieId
 	 * @return
 	 */
+	@HystrixCommand(fallbackMethod = "buyMovieHystrix") // 当发生断路的时候，调用该方法进行处理
 	@GetMapping("/buyMovie/{userId}/{movieId}")
 	public Map<String, Object> buyMovie(
 			@PathVariable("userId") Integer userId, 
@@ -53,5 +55,25 @@ public class UserController {
 		result.put("user", user);
 		result.put("movie", movie);
 		return result;
+	}
+	
+	/**
+	 * 熔断处理逻辑
+	 * @param userId
+	 * @param movieId
+	 * @return
+	 */
+	public Map<String, Object> buyMovieHystrix(
+			@PathVariable("userId") Integer userId, 
+			@PathVariable("movieId") Integer movieId
+	){
+		Map<String, Object> map = new HashMap<>();
+		User user = new User(-1, "无此用户");
+		Movie movie = new Movie(-1, "无此电影");
+		
+		map.put("user", user);
+		map.put("movie", movie);
+		
+		return map;
 	}
 }

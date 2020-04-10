@@ -1,9 +1,9 @@
 spring:
   application:
-    name: cloud-provider-user
+    name: cloud-provider-user-restTemplate
     
 server:
-  port: 9000  
+  port: 9002
   
 # 指定注册到哪个注册中心
 eureka:
