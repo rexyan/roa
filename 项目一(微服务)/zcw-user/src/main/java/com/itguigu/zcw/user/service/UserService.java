@@ -1,6 +1,7 @@
 package com.itguigu.zcw.user.service;
 
 import com.itguigu.zcw.user.vo.req.UserRegistVo;
+import com.itguigu.zcw.user.vo.resp.UserLoginRespVo;
 
 public interface UserService {
 	
@@ -24,5 +25,13 @@ public interface UserService {
 	 * @return
 	 */
 	Boolean loginacctExist(String userpaswd);
+	
+	/**
+	 * 用户登录
+	 * @param loginacct
+	 * @param password
+	 * @return
+	 */
+	UserLoginRespVo userLogin(String loginacct, String password);
 
 }

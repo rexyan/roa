@@ -9,8 +9,8 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.itguigu.zcw.http.HttpUtils;
-import com.itguigu.zcw.vo.resp.AppResponse;
+import com.itguigu.zcw.commons.http.HttpUtils;
+import com.itguigu.zcw.commons.vo.resp.AppResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

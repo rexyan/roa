@@ -14,14 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.druid.support.logging.Log;
-import com.itguigu.zcw.enums.AccttypeEnume;
-import com.itguigu.zcw.enums.AuthEnume;
-import com.itguigu.zcw.enums.UserTypeEnume;
+import com.itguigu.zcw.commons.enums.AccttypeEnume;
+import com.itguigu.zcw.commons.enums.AuthEnume;
+import com.itguigu.zcw.commons.enums.UserTypeEnume;
+import com.itguigu.zcw.commons.validation.ValidationEmail;
+import com.itguigu.zcw.commons.vo.resp.AppResponse;
 import com.itguigu.zcw.user.components.SmsTemplate;
 import com.itguigu.zcw.user.service.UserService;
 import com.itguigu.zcw.user.vo.req.UserRegistVo;
-import com.itguigu.zcw.validation.ValidationEmail;
-import com.itguigu.zcw.vo.resp.AppResponse;
+import com.itguigu.zcw.user.vo.resp.UserLoginRespVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,27 +46,19 @@ public class UserLoginRegistController {
 	@Autowired
 	UserService userService;
 	
-//	@ApiOperation(value="用户登陆") 
-//	@ApiImplicitParams(value={
-//			@ApiImplicitParam(value="登陆账号",name="loginacct"),
-//			@ApiImplicitParam(value="用户密码",name="password")
-//	})
-//	@PostMapping("/login")
-//	public AppResponse<LoginRespVo> login(String loginacct,String password){
-//		LoginRespVo respVo = new LoginRespVo();
-//		TMember member = new TMember();
-//		member.setLoginacct("15353475896");
-//		member.setRealname("张三");
-//		member.setUsertype(UserTypeEnume.USER_VIP2.getCode());
-//		member.setAccttype(AccttypeEnume.BUSINESS_MAN.getCode());
-//		member.setAuthstatus(AuthEnume.AUTHING.getCode());
-//		member.setCardnum("145645893212365646");
-//		member.setUsername("zhangsan");
-//		
-//		respVo.setAccessToken(UUID.randomUUID().toString().replace("-", ""));
-//		respVo.setMember(member);
-//		return AppResponse.ok(respVo);
-//	} 
+	@ApiOperation(value="用户登陆") 
+	@ApiImplicitParams(value={@ApiImplicitParam(value="登陆账号",name="loginacct"), @ApiImplicitParam(value="用户密码",name="password")})
+	@PostMapping("/login")
+	public AppResponse<UserLoginRespVo> login(String loginacct,String password){
+		try {
+			UserLoginRespVo respVo = userService.userLogin(loginacct, password);
+			return AppResponse.ok(respVo);
+		} catch (Exception e) {
+			AppResponse<UserLoginRespVo> resp = AppResponse.fail(null);
+			resp.setMsg(e.getMessage());
+			return resp;
+		}
+	} 
 
 	@ApiOperation(value = "用户注册")
 	@PostMapping("/register")
