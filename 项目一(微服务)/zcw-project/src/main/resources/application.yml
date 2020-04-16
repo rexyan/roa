@@ -17,3 +17,7 @@ eureka:
     
 server: 
   port: 7001
+
+  
+swagger2: 
+     enable: true

@@ -1,4 +1,4 @@
-package com.itguigu.zcw.user.config;
+package com.itguigu.zcw.project.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +20,10 @@ public class AppSwaggerConfig {
 	@Value("${swagger2.enable:false}")
 	private boolean enable;
 
-	@Bean("用户模块")
+	@Bean("项目模块")
 	public Docket projectApis() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("用户模块").select()
-				.apis(RequestHandlerSelectors.withClassAnnotation(Api.class)).paths(PathSelectors.regex("/user.*"))
+		return new Docket(DocumentationType.SWAGGER_2).groupName("项目模块").select()
+				.apis(RequestHandlerSelectors.withClassAnnotation(Api.class)).paths(PathSelectors.regex("/project.*"))
 				.build().apiInfo(apiInfo()).enable(enable);
 	}
 

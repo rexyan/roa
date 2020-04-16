@@ -1,10 +1,10 @@
-package com.itguigu.zcw.config;
+package com.itguigu.zcw.project.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.itguigu.zcw.components.AliOssTemplate;
+import com.itguigu.zcw.project.components.AliOssTemplate;
 
 // 使用 @Configuration 或者 @SpringBootConfiguration 让其成为一个配置类
 @Configuration

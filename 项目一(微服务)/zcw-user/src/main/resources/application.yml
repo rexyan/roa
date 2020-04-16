@@ -25,3 +25,8 @@ eureka:
     
 server: 
   port: 7000
+  
+
+swagger2: 
+     enable: true
+     

@@ -52,7 +52,7 @@ public class SmsTemplate {
 			HttpEntity entity = response.getEntity();
 			System.out.println(EntityUtils.toString(response.getEntity()));
 			
-			log.debug("开始发送短信-成功：{},{}", querys.get("mobile"),querys.get("param"));
+			log.debug("发送短信-成功：{},{}", querys.get("mobile"),querys.get("param"));
 			
 			return AppResponse.ok("OK");
 		} catch (Exception e) {

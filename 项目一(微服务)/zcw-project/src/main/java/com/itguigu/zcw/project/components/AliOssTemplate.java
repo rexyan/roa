@@ -1,4 +1,4 @@
-package com.itguigu.zcw.components;
+package com.itguigu.zcw.project.components;
 
 import java.io.InputStream;
 import java.util.UUID;
