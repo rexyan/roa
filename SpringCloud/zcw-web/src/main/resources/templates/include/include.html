@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- 基本 css 信息 -->
+	<span th:fragment="basicCss">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/static/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" href="css/font-awesome.min.css" th:href="@{/static/css/font-awesome.min.css}">
+		<link rel="stylesheet" href="css/carousel.css" th:href="@{/static/css/carousel.css}">
+	</span>
+	
+	<!-- 基本 javaScript 信息 -->
+	<span th:fragment="basicScript">
+		<script src="jquery/jquery-2.1.1.min.js" th:src="@{/static/jquery/jquery-2.1.1.min.js}"></script>
+	    <script src="bootstrap/js/bootstrap.min.js" th:src="@{/static/bootstrap/js/bootstrap.min.js}"></script>
+		<script src="script/docs.min.js" th:src="@{/static/script/docs.min.js}"></script>
+	    <script src="script/back-to-top.js" th:src="@{/static/script/back-to-top.js}"></script>
+	</span>
+	
+	<!-- footer 信息 -->
+	<div class="container" id="basicFooter">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<div id="footer">
+					<div class="footerNav">
+						 <a rel="nofollow" href="http://www.atguigu.com">关于我们</a> | <a rel="nofollow" href="http://www.atguigu.com">服务条款</a> | <a rel="nofollow" href="http://www.atguigu.com">免责声明</a> | <a rel="nofollow" href="http://www.atguigu.com">网站地图</a> | <a rel="nofollow" href="http://www.atguigu.com">联系我们</a>
+					</div>
+					<div class="copyRight">
+						Copyright ?2017-2017atguigu.com 版权所有
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

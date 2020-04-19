@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="/static/bootstrap/css/bootstrap.css" th:href="@{/static/bootstrap/css/bootstrap.css}"/>
+<head>
+<meta charset="UTF-8">
+<title>thymeleaf 测试</title>
+</head>
+<body>
+	<div th:text="${key}">div 内容</div>
+	
+	<div th:each="user: ${users}" th:text="${user}"></div>
+	<div th:each="user: ${users}">[[${user}]]</div>
+</body>
+<script type="text/javascript" src="/static/static/bootstrap/js/bootstrap.min.js" th:src="@{/static/bootstrap/js/bootstrap.min.js}"></script>
+</html>
