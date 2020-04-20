@@ -59,6 +59,7 @@
 		<table tableName="t_tag"></table>
 		<table tableName="t_return"></table>
 		<table tableName="t_project_initiator"></table> -->
-		<table tableName="t_return"></table>
+		<!-- <table tableName="t_return"></table> -->
+		<table tableName="t_advertisement"></table>
 	</context>
 </generatorConfiguration> 

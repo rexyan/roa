@@ -1,7 +1,7 @@
 package com.itguigu.zcw.user.service;
 
-import com.itguigu.zcw.user.vo.req.UserRegistVo;
-import com.itguigu.zcw.user.vo.resp.UserLoginRespVo;
+import com.itguigu.zcw.commons.vo.req.UserRegistVo;
+import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
 
 public interface UserService {
 	

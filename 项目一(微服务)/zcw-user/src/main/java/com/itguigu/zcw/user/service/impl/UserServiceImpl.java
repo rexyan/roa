@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.itguigu.zcw.commons.vo.req.UserRegistVo;
+import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
 import com.itguigu.zcw.user.bean.TMember;
 import com.itguigu.zcw.user.bean.TMemberExample;
 import com.itguigu.zcw.user.bean.TMemberExample.Criteria;
@@ -19,8 +21,6 @@ import com.itguigu.zcw.user.enums.UserExceptionEnum;
 import com.itguigu.zcw.user.exception.UserException;
 import com.itguigu.zcw.user.mapper.TMemberMapper;
 import com.itguigu.zcw.user.service.UserService;
-import com.itguigu.zcw.user.vo.req.UserRegistVo;
-import com.itguigu.zcw.user.vo.resp.UserLoginRespVo;
 
 import lombok.extern.slf4j.Slf4j;
 

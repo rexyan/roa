@@ -2,25 +2,26 @@ package com.itguigu.zcw.project.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itguigu.zcw.commons.vo.req.CreateProjectBaseReqVo;
+import com.itguigu.zcw.commons.vo.req.CreateProjectInfoReqVo;
+import com.itguigu.zcw.commons.vo.req.CreateProjectOriginatorReqVo;
+import com.itguigu.zcw.commons.vo.req.CreateProjectTReturnReqVo;
 import com.itguigu.zcw.commons.vo.resp.AppResponse;
 import com.itguigu.zcw.project.components.AliOssTemplate;
-import com.itguigu.zcw.project.service.ProjectService;
-import com.itguigu.zcw.project.vo.req.CreateProjectBaseReqVo;
-import com.itguigu.zcw.project.vo.req.CreateProjectInfoReqVo;
-import com.itguigu.zcw.project.vo.req.CreateProjectOriginatorReqVo;
-import com.itguigu.zcw.project.vo.req.CreateProjectReturnReqVo;
+import com.itguigu.zcw.project.service.ProjectCreateService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,7 +37,7 @@ public class ProjectCreateController {
 	AliOssTemplate aliOssTemplate;
 	
 	@Autowired
-	ProjectService projectService;
+	ProjectCreateService projectCreateService;
 	
 	/**
 	 * 
@@ -53,7 +54,7 @@ public class ProjectCreateController {
 		try {
 			// 判断参数是否为空
 			if (!StringUtils.isEmpty(accessToken)) {
-				CreateProjectBaseReqVo projectInfo = projectService.initCreateroject(accessToken);
+				CreateProjectBaseReqVo projectInfo = projectCreateService.initCreateroject(accessToken);
 				AppResponse<Object> appResponse = AppResponse.ok(projectInfo);
 				appResponse.setMsg("项目初始化成功");
 				return appResponse;
@@ -87,7 +88,7 @@ public class ProjectCreateController {
 		try {
 			// 判断参数是否为空
 			if (!StringUtils.isEmpty(accessToken)) {
-				CreateProjectBaseReqVo projectInfo = projectService.addProjectOriginatorInfo(projectId, projectInfoReqVo, projectOriginatorReqVo);
+				CreateProjectBaseReqVo projectInfo = projectCreateService.addProjectOriginatorInfo(projectId, projectInfoReqVo, projectOriginatorReqVo);
 				AppResponse<Object> appResponse = AppResponse.ok(projectInfo);
 				appResponse.setMsg("添加项目及发起人信息成功");
 				return appResponse;
@@ -112,7 +113,7 @@ public class ProjectCreateController {
 	 */
 	@ApiOperation(value = "3. 添加项目回报")
 	@PostMapping("/return/{projectId}")
-	public AppResponse<Object> returnDetail(@PathVariable("projectId") String projectId, CreateProjectBaseReqVo baseReqVo, CreateProjectReturnReqVo[] projectReturnListReqVo) {
+	public AppResponse<Object> returnDetail(@PathVariable("projectId") String projectId, CreateProjectBaseReqVo baseReqVo, @RequestBody() List<CreateProjectTReturnReqVo> projectReturnListReqVo) {
 		// 获取传递的参数
 		String accessToken = baseReqVo.getAccessToken();
 		log.error("添加项目回报 accessToken：{}, baseReqVo:{}, projectReturnReqVo:{}", accessToken, baseReqVo, projectReturnListReqVo);
@@ -120,7 +121,7 @@ public class ProjectCreateController {
 		try {
 			// 判断参数是否为空
 			if (!StringUtils.isEmpty(accessToken)) {
-				CreateProjectBaseReqVo projectInfo = projectService.addProjectRetuenInfo(projectId, projectReturnListReqVo);
+				CreateProjectBaseReqVo projectInfo = projectCreateService.addProjectRetuenInfo(projectId, projectReturnListReqVo);
 				AppResponse<Object> appResponse = AppResponse.ok(projectInfo);
 				appResponse.setMsg("添加项目回报信息成功");
 				return appResponse;
@@ -154,7 +155,7 @@ public class ProjectCreateController {
 		try {
 			// 判断参数是否为空
 			if (!StringUtils.isEmpty(accessToken)) {
-				CreateProjectBaseReqVo projectInfo = projectService.confirmProjectInfo(projectId);
+				CreateProjectBaseReqVo projectInfo = projectCreateService.confirmProjectInfo(projectId);
 				AppResponse<Object> appResponse = AppResponse.ok(projectInfo);
 				appResponse.setMsg("确认信息成功");
 				return appResponse;

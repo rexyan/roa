@@ -18,11 +18,11 @@ import com.itguigu.zcw.commons.enums.AccttypeEnume;
 import com.itguigu.zcw.commons.enums.AuthEnume;
 import com.itguigu.zcw.commons.enums.UserTypeEnume;
 import com.itguigu.zcw.commons.validation.ValidationEmail;
+import com.itguigu.zcw.commons.vo.req.UserRegistVo;
 import com.itguigu.zcw.commons.vo.resp.AppResponse;
+import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
 import com.itguigu.zcw.user.components.SmsTemplate;
 import com.itguigu.zcw.user.service.UserService;
-import com.itguigu.zcw.user.vo.req.UserRegistVo;
-import com.itguigu.zcw.user.vo.resp.UserLoginRespVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.bouncycastle.mime.MimeWriter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -15,6 +14,11 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.itguigu.zcw.commons.utils.AppDateUtils;
+import com.itguigu.zcw.commons.vo.req.CreateProjectBaseReqVo;
+import com.itguigu.zcw.commons.vo.req.CreateProjectBigReqVo;
+import com.itguigu.zcw.commons.vo.req.CreateProjectInfoReqVo;
+import com.itguigu.zcw.commons.vo.req.CreateProjectOriginatorReqVo;
+import com.itguigu.zcw.commons.vo.req.CreateProjectTReturnReqVo;
 import com.itguigu.zcw.project.bean.TProject;
 import com.itguigu.zcw.project.bean.TProjectImages;
 import com.itguigu.zcw.project.bean.TReturn;
@@ -25,18 +29,14 @@ import com.itguigu.zcw.project.enums.ProjectStatusEnum;
 import com.itguigu.zcw.project.exception.ProjectException;
 import com.itguigu.zcw.project.mapper.TProjectImagesMapper;
 import com.itguigu.zcw.project.mapper.TProjectMapper;
-import com.itguigu.zcw.project.service.ProjectService;
-import com.itguigu.zcw.project.vo.req.CreateProjectBaseReqVo;
-import com.itguigu.zcw.project.vo.req.CreateProjectBigReqVo;
-import com.itguigu.zcw.project.vo.req.CreateProjectInfoReqVo;
-import com.itguigu.zcw.project.vo.req.CreateProjectOriginatorReqVo;
-import com.itguigu.zcw.project.vo.req.CreateProjectReturnReqVo;
+import com.itguigu.zcw.project.mapper.TReturnMapper;
+import com.itguigu.zcw.project.service.ProjectCreateService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class ProjectServiceImpl implements ProjectService {
+public class ProjectServiceImpl implements ProjectCreateService {
 	@Autowired
 	StringRedisTemplate stringRedisTemplate;
 
@@ -45,7 +45,10 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	TProjectImagesMapper projectImagesMapper;
-
+	
+	@Autowired
+	TReturnMapper returnMapper;
+	
 	@Override
 	public CreateProjectBigReqVo initCreateroject(String accessToken) {
 		// 判断当前用户是否已经登录
@@ -65,8 +68,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		// 将数据序列化为 json 后写入 redis 中
 		String projectBigReqVoJsonStr = JSON.toJSONString(projectBigReqVo);
-		stringRedisTemplate.opsForValue().set(ProjectConstant.PROJECT_TEMP_PREFIX + projectId, projectBigReqVoJsonStr,
-				5, TimeUnit.MINUTES);
+		stringRedisTemplate.opsForValue().set(ProjectConstant.PROJECT_TEMP_PREFIX + projectId, projectBigReqVoJsonStr, 5, TimeUnit.HOURS);
 
 		log.error("项目初始化成功, projectId：{}", projectId);
 		return projectBigReqVo;
@@ -76,7 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public CreateProjectBigReqVo addProjectOriginatorInfo(String projectId, CreateProjectInfoReqVo projectInfoReqVo,
 			CreateProjectOriginatorReqVo projectOriginatorReqVo) {
 		// 根据 projectId 取出 Redis 中的大 Vo 数据
-		String projectInfoStr = stringRedisTemplate.opsForValue().get(projectId);
+		String projectInfoStr = stringRedisTemplate.opsForValue().get(ProjectConstant.PROJECT_TEMP_PREFIX + projectId);
 		if (StringUtils.isEmpty(projectInfoStr)) {
 			throw new ProjectException(ProjectExceptionEnum.NOT_FOUNT_PROJECT_INFO);
 		}
@@ -93,16 +95,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 		// 将大 Vo 重新序列化，存入 Redis 中
 		String projectInfoBaseStr = JSON.toJSONString(projectInfoBaseVo);
-		stringRedisTemplate.opsForValue().set(ProjectConstant.PROJECT_TEMP_PREFIX + projectId, projectInfoBaseStr, 5,
-				TimeUnit.MINUTES);
+		stringRedisTemplate.opsForValue().set(ProjectConstant.PROJECT_TEMP_PREFIX + projectId, projectInfoBaseStr, 5, TimeUnit.HOURS);
 		return projectInfoBaseVo;
 	}
 
 	@Override
-	public CreateProjectBigReqVo addProjectRetuenInfo(String projectId,
-			CreateProjectReturnReqVo[] projectReturnListReqVo) {
+	public CreateProjectBigReqVo addProjectRetuenInfo(String projectId, List<CreateProjectTReturnReqVo> projectReturnListReqVo) {
 		// 根据 projectId 取出 Redis 中的大 Vo 数据
-		String projectInfoStr = stringRedisTemplate.opsForValue().get(projectId);
+		String projectInfoStr = stringRedisTemplate.opsForValue().get(ProjectConstant.PROJECT_TEMP_PREFIX + projectId);
 		if (StringUtils.isEmpty(projectInfoStr)) {
 			throw new ProjectException(ProjectExceptionEnum.NOT_FOUNT_PROJECT_INFO);
 		}
@@ -110,18 +110,17 @@ public class ProjectServiceImpl implements ProjectService {
 		CreateProjectBigReqVo projectInfoBaseVo = JSON.parseObject(projectInfoStr, CreateProjectBigReqVo.class);
 
 		// 将 projectReturnReqVo 信息塞入大 Vo 中
-		ArrayList<TReturn> tReturnList = new ArrayList<>();
-		for (CreateProjectReturnReqVo projectReturnReqVo : projectReturnListReqVo) {
-			TReturn tReturn = new TReturn();
-			BeanUtils.copyProperties(projectReturnReqVo, tReturn);
-			tReturnList.add(tReturn);
+		ArrayList<CreateProjectTReturnReqVo> tReturnList = new ArrayList<>();
+		for (CreateProjectTReturnReqVo projectReturnReqVo : projectReturnListReqVo) {
+			CreateProjectTReturnReqVo createProjectReturnReqVo = new CreateProjectTReturnReqVo();
+			BeanUtils.copyProperties(projectReturnReqVo, createProjectReturnReqVo);
+			tReturnList.add(createProjectReturnReqVo);
 		}
 		projectInfoBaseVo.setProjectReturns(tReturnList);
 
 		// 将大 Vo 重新序列化，存入 Redis 中
 		String projectInfoBaseStr = JSON.toJSONString(projectInfoBaseVo);
-		stringRedisTemplate.opsForValue().set(ProjectConstant.PROJECT_TEMP_PREFIX + projectId, projectInfoBaseStr, 5,
-				TimeUnit.MINUTES);
+		stringRedisTemplate.opsForValue().set(ProjectConstant.PROJECT_TEMP_PREFIX + projectId, projectInfoBaseStr, 5, TimeUnit.HOURS);
 		return projectInfoBaseVo;
 	}
 
@@ -129,7 +128,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public CreateProjectBaseReqVo confirmProjectInfo(String projectId) {
 		// 根据 projectId 取出 Redis 中的大 Vo 数据
-		String projectInfoStr = stringRedisTemplate.opsForValue().get(projectId);
+		String projectInfoStr = stringRedisTemplate.opsForValue().get(ProjectConstant.PROJECT_TEMP_PREFIX + projectId);
 		if (StringUtils.isEmpty(projectInfoStr)) {
 			throw new ProjectException(ProjectExceptionEnum.NOT_FOUNT_PROJECT_INFO);
 		}
@@ -150,8 +149,10 @@ public class ProjectServiceImpl implements ProjectService {
 		tProject.setMemberid(projectInfoBaseVo.getMemberid());
 		tProject.setCreatedate(AppDateUtils.getFormatTime());
 		tProject.setFollower(0);
-		int insertProjectId = projectMapper.insertSelective(tProject); // 获取新增后返回的自增id
-
+		projectMapper.insertSelective(tProject); 
+		
+		// 获取新增后返回的自增id
+		int insertProjectId = tProject.getId();
 		// 保存项目图片信息
 		// 项目头图
 		TProjectImages tProjectImages = new TProjectImages();
@@ -170,14 +171,18 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		
 		// 保存发起人信息
+		// 保存回报信息
+		List<CreateProjectTReturnReqVo> projectReturns = projectInfoBaseVo.getProjectReturns();
+		for (CreateProjectTReturnReqVo projectReturn : projectReturns) {
+			TReturn tReturn = new TReturn();
+			tReturn.setProjectid(insertProjectId);
+			BeanUtils.copyProperties(projectReturn, tReturn);
+			returnMapper.insertSelective(tReturn);
+		}
 		
+		// 删除 redis 中的信息
+		stringRedisTemplate.delete(ProjectConstant.PROJECT_TEMP_PREFIX + projectId);
 		
-		
-		return null;
-	}
-
-	private void TProjectImages() {
-		// TODO Auto-generated method stub
-		
+		return projectInfoBaseVo;
 	}
 }
