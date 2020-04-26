@@ -1,0 +1,256 @@
+<!DOCTYPE html >
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	
+	<span th:include="~{include/include::basicCss}"></span>
+	
+	<style>
+		#footer {
+		    padding: 15px 0;
+		    background: #fff;
+		    border-top: 1px solid #ddd;
+		    text-align: center;
+		}
+		#topcontrol {
+		  color: #fff;
+		  z-index: 99;
+		  width: 30px;
+		  height: 30px;
+		  font-size: 20px;
+		  background: #222;
+		  position: relative;
+		  right: 14px !important;
+		  bottom: 11px !important;
+		  border-radius: 3px !important;
+		} 
+		
+		#topcontrol:after {
+		  /*top: -2px;*/
+		  left: 8.5px;
+		  content: "\f106";
+		  position: absolute;
+		  text-align: center;
+		  font-family: FontAwesome;
+		}
+		
+		#topcontrol:hover {
+		    color: #fff;
+		    background: #18ba9b;
+		    -webkit-transition: all 0.3s ease-in-out;
+		    -moz-transition: all 0.3s ease-in-out;
+		    -o-transition: all 0.3s ease-in-out;
+		    transition: all 0.3s ease-in-out;
+		}
+		.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+		    border-bottom-color: #ddd;
+		}
+		.nav-tabs>li>a {
+		    border-radius: 0;
+		}
+	</style>
+  </head>
+  <body>
+    <div th:include="~{include/include::#basicNavbar}"></div>
+	
+	<div class="container theme-showcase" role="main" style="margin-top:2cm;">
+		<div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <nav class="navbar navbar-default" role="navigation">                        
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a rel="nofollow" href="index.html" ><i class="glyphicon glyphicon-home" th:text="众筹首页"></i></a>
+                                </li>
+                                <li >
+                                    <a rel="nofollow" href="projects.html"><i class="glyphicon glyphicon-th-large" th:text="众筹项目"></i> </a>
+                                </li>
+                                <li>
+                                    <a rel="nofollow" href="start.html"><i class="glyphicon glyphicon-edit" th:text="发起众筹"></i> </a>
+                                </li>
+                                <li>
+                                    <a rel="nofollow" href="minecrowdfunding.html"><i class="glyphicon glyphicon-user" th:text="我的众筹"></i> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="jumbotron nofollow" style="    padding-top: 10px;">
+                        <h3>
+                             [[${projectDetail.name}]]
+                        </h3>
+                        <div style="float:left;width:70%;">
+                             [[${projectDetail.remark}]]
+                        </div>
+                        <div style="float:right;">
+                            <button type="button" class="btn btn-default"><i style="color:#f60" class="glyphicon glyphicon-heart"></i> 关注 [[${projectDetail.follower}]] </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="row clearfix">
+                        <div class="col-md-8 column">
+                    
+                        <img alt="" width="740" th:src="${image}" th:each="image:${projectDetail.detailsImage}"/>
+                      
+                           
+                        </div>
+                        <div class="col-md-4 column">
+                            <div class="panel panel-default" style="border-radius: 0px;">
+                                <div class="panel-heading" style="background-color: #fff;border-color: #fff;">
+                                	<span th:if="${projectDetail.status == 5}">
+                                		<span class="label label-success"><i class="glyphicon glyphicon-tag"></i> 开始众筹 </span>
+                                	</span>
+                                	<span th:if="${projectDetail.status == 6}">
+                                		<span class="label label-success"><i class="glyphicon glyphicon-tag"></i> 众筹成功 </span>
+                                	</span>
+                                	<span th:if="${projectDetail.status == 7}">
+                                		<span class="label label-success"><i class="glyphicon glyphicon-tag"></i> 众筹完成 </span>
+                                	</span>
+                                	<span th:if="${projectDetail.status == 8}">
+                                		<span class="label label-success"><i class="glyphicon glyphicon-tag"></i> 众筹失败 </span>
+                                	</span>
+                                </div>
+                                <div class="panel-body">
+                                    <h3>
+                                        已筹资金：￥ [[${projectDetail.supportmoney}]]
+                                    </h3>
+                                    <p><span>目标金额 ： [[${projectDetail.money}]] </span><span style="float:right;">达成 ： [[${projectDetail.completion}]] %</span></p>
+                                    <div class="progress" style="height:10px; margin-bottom: 5px;">
+                                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: [[${projectDetail.completion}]]%;"></div>
+                                    </div>
+                                    <p>剩余 [[${projectDetail.day}]] 天</p>
+                                    <div>
+                                     <p><span>已有629人支持该项目</p>
+                                     <button type="button" class="btn  btn-warning btn-lg btn-block" data-toggle="modal" data-target="#myModal">立即支持</button>
+                                    </div>
+                                </div>
+                                <div class="panel-footer" style="background-color: #fff;
+                                    border-top: 1px solid #ddd;
+                                    border-bottom-right-radius: 0px;
+                                    border-bottom-left-radius: 0px;">
+                                <div class="container-fluid">
+                                    <div class="row clearfix">
+                                        <div class="col-md-3 column" style="padding:0;">
+                                <!-- <img alt="140x140" src="img/services-box2.jpg" data-holder-rendered="true" style="width: 80px; height: 80px;"> -->
+                                </div>
+                               <!--  <div class="col-md-9 column">
+                                    <div class="">
+                                        <h4>
+                                            <b>福建省南安厨卫</b> <span style="float:right;font-size:12px;" class="label label-success">已认证</span>
+                                        </h4>
+                                        <p style="font-size:12px">
+                                            酷驰是一家年轻的厨卫科技公司，我们有一支朝气蓬勃，有激情、有想法、敢实践的团队。
+
+                                        </p>
+                                        <p style="font-size:12px">
+                                        客服电话:0595-86218855
+                                        </p>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+					<div class="panel panel-default" style="border-radius: 0px;" th:each="projectReturn:${projectDetail.projectReturns}">
+						<div class="panel-heading">
+							<h3 >
+								￥[[${projectReturn.supportmoney}]] 
+								<span style="float:right;font-size:12px;"> 
+									<span th:text="${projectReturn.signalpurchase==0?'无限额':'每人限额数: ' + projectReturn.signalpurchase}"></span>
+								</span>
+							</h3>
+						</div>
+						<div class="panel-body">
+                            <p>配送费用：<span th:text="${projectReturn.freight==0?'包邮':projectReturn.freight}"></span></p>
+                            <p>预计发放时间：项目筹款成功后的 [[${projectReturn.rtndate}]] 天内</p>
+                            <button type="button" class="btn  btn-warning btn-lg" onclick="window.location.href='pay-step-1.html'">支持</button>
+                            <br><br>
+                            <p>[[${projectReturn.content}]]</p>
+						</div>
+					</div>
+
+
+                    <div><h2>为你推荐</h2><hr></div>
+					<div class="prjtip panel panel-default" style="border-radius: 0px;">
+						<div class="panel-body">
+                            <img src="img/product-3.png" width="100%" height="100%">
+						</div>
+					</div>
+                    
+					<div class="prjtip panel panel-default" style="border-radius: 0px;">
+						<div class="panel-body">
+                            <img src="img/product-4.jpg" width="100%" height="100%">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+    
+
+         <span th:include="~{include/include::#basicFooter}"></span>
+      
+    </div> <!-- /container -->
+    
+    
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+      <div class="modal-dialog "  style="width:960px;height:400px;" role="document">
+        <div class="modal-content" data-spy="scroll" data-target="#myScrollspy">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">选择支持项</h4>
+          </div>
+			          <div class="modal-body">
+			<div class="container-fluid">
+				<div class="row clearfix">
+					<div class="col-sm-3 col-md-3 column" id="myScrollspy">
+			            <ul class="nav nav-tabs nav-stacked">
+			                <li class="active"><a th:href="|#section-${status.count}|" th:each="projectReturn,status:${projectDetail.projectReturns}">￥ [[${projectReturn.supportmoney}]]</a></li>
+			            </ul>
+					</div>
+					<div id="navList" class="col-sm-9 col-md-9 column" style="height:400px;overflow-y:auto;">
+						<div th:each="projectReturn,status:${projectDetail.projectReturns}">
+							<h2 th:id="|section-${status.count}|" style="border-bottom:1px dashed #ddd;" ><span style="font-size:20px;font-weight:bold;">￥ [[${projectReturn.supportmoney}]]</span><span style="font-size:12px;margin-left:60px;"><span th:text="${projectReturn.signalpurchase==0?'无限额':'每人限额数: ' + projectReturn.signalpurchase}"></span>，223位支持者</span></h2>
+				            <p>配送费用：<span th:text="${projectReturn.freight==0?'包邮':projectReturn.freight}"></span></p>
+				            <p>预计发放时间：项目筹款成功后的 [[${projectReturn.rtndate}]] 天内</p>
+				            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step-1.html'">支持</button>
+				            <br><br>
+				            <p> [[${projectReturn.content}]] </p>
+				            <hr>
+						</div>
+			           </div>
+			        </div>
+				</div>
+			</div>
+          </div>
+        </div>
+      </div>
+
+    <span th:include="~{include/include::basicScript}"></span>
+    
+	<script>
+    $(".prjtip img").css("cursor", "pointer");
+    $(".prjtip img").click(function(){
+        window.location.href = 'project.html';
+    });
+	</script>
+  </body>
+</html>

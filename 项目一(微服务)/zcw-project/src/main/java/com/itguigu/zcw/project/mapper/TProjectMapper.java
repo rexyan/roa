@@ -27,4 +27,6 @@ public interface TProjectMapper {
     int updateByPrimaryKeySelective(TProject record);
 
     int updateByPrimaryKey(TProject record);
+
+	List<TProject> getIndexRecommendProject();
 }

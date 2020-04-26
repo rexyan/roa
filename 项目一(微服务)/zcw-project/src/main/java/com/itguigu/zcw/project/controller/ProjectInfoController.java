@@ -1,19 +1,29 @@
 package com.itguigu.zcw.project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itguigu.zcw.commons.bean.TReturn;
 import com.itguigu.zcw.commons.vo.resp.AppResponse;
+import com.itguigu.zcw.commons.vo.resp.IndexRecommendRespVo;
+import com.itguigu.zcw.commons.vo.resp.ProjectDetailRepVo;
 import com.itguigu.zcw.project.bean.TAdvertisement;
+import com.itguigu.zcw.project.bean.TProject;
+import com.itguigu.zcw.project.bean.TProjectImages;
 import com.itguigu.zcw.project.service.TProjectInfoService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Api(tags = "项目信息模块")
 @RequestMapping("/project")
 @RestController
@@ -23,15 +33,37 @@ public class ProjectInfoController {
 
 	@ApiOperation(value = "获取首页广告项目")
 	@GetMapping("/adv")
-	public AppResponse<Object> adv() {
-		List<TAdvertisement> listAdvertisements = projectInfoService.getIndexAdv();
-		return AppResponse.ok(listAdvertisements);
+	public AppResponse<List<TAdvertisement>> adv() {
+		try {
+			List<TAdvertisement> listAdvertisements = projectInfoService.getIndexAdv();
+			log.info("获取首页广告项目:{}", listAdvertisements);
+			return AppResponse.ok(listAdvertisements);
+		} catch (Exception e) {
+			log.error("获取首页广告项目错误:{}", e.getMessage());
+			
+			AppResponse<List<TAdvertisement>> appResponse = new AppResponse<>();
+			appResponse.setData(null);
+			appResponse.setMsg("获取首页广告项目错误");
+			return appResponse;
+		}
 	}
 
 	@ApiOperation(value = "获取首页热门推荐项目")
 	@GetMapping("/recommend/index")
-	public AppResponse<Object> index() {
-		return AppResponse.ok("ok");
+	public AppResponse<List<IndexRecommendRespVo>> indexRecommend() {
+		try {
+			List<IndexRecommendRespVo> indexRecommendList = projectInfoService.getIndexRecommendProject();
+			log.info("获取首页热门推荐项目:{}", indexRecommendList);
+			return AppResponse.ok(indexRecommendList);
+		} catch (Exception e) {
+			log.error("获取首页热门推荐项目:{}", e.getMessage());
+			
+			AppResponse<List<IndexRecommendRespVo>> appResponse = new AppResponse<>();
+			appResponse.setData(null);
+			appResponse.setMsg("获取首页热门推荐项目");
+			return appResponse;
+		}
+		
 	}
 
 	@ApiOperation(value = "获取首页分类推荐项目")
@@ -59,9 +91,31 @@ public class ProjectInfoController {
 	}
 
 	@ApiOperation(value = "获取项目详情信息")
-	@GetMapping("/info/detail")
-	public AppResponse<Object> detail() {
-		return AppResponse.ok("ok");
+	@GetMapping("/info/detail/{projectId}")
+	public AppResponse<ProjectDetailRepVo> detail(@PathVariable("projectId") Integer projectId) {
+		ProjectDetailRepVo projectDetailRepVo = new ProjectDetailRepVo();
+		// 查询项目信息
+		TProject projectInfo = projectInfoService.getProjectInfo(projectId);
+		BeanUtils.copyProperties(projectInfo, projectDetailRepVo);
+		// 查询所有图片信息
+		List<TProjectImages> projectImageList = projectInfoService.getProjectImages(projectId);
+		for (TProjectImages tProjectImages : projectImageList) {
+			ArrayList<Object> detailsImages = new ArrayList<>();
+			if(0 == tProjectImages.getImgtype()) {
+				// 头图
+				projectDetailRepVo.setHeaderImage(tProjectImages.getImgurl());
+			}else {
+				// 详情图
+				List<String> projectDetailsImageList = projectDetailRepVo.getDetailsImage();
+				projectDetailsImageList.add(tProjectImages.getImgurl());
+			}
+		}
+		// 查询回报信息
+		List<TReturn> projectReturns = projectInfoService.getProjectReturnInfo(projectId);
+		projectDetailRepVo.setProjectReturns(projectReturns);
+		
+		log.info("获取项目:{} 详情信息:{}", projectId, projectDetailRepVo);
+		return AppResponse.ok(projectDetailRepVo);
 	}
 
 	@ApiOperation(value = "获取项目回报档位信息")

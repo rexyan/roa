@@ -1,9 +1,11 @@
 package com.itguigu.zcw.project.mapper;
 
-import com.itguigu.zcw.project.bean.TReturn;
-import com.itguigu.zcw.project.bean.TReturnExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import com.itguigu.zcw.commons.bean.TReturn;
+import com.itguigu.zcw.project.bean.TReturnExample;
 
 public interface TReturnMapper {
     long countByExample(TReturnExample example);

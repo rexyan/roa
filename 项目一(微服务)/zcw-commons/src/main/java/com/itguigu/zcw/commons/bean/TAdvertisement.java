@@ -1,4 +1,4 @@
-package com.itguigu.zcw.project.bean;
+package com.itguigu.zcw.commons.bean;
 
 import java.io.Serializable;
 

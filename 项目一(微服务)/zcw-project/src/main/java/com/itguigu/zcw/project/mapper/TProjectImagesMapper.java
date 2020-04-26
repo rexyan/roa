@@ -27,4 +27,6 @@ public interface TProjectImagesMapper {
     int updateByPrimaryKeySelective(TProjectImages record);
 
     int updateByPrimaryKey(TProjectImages record);
+
+	String getImgUrl(Integer id);
 }

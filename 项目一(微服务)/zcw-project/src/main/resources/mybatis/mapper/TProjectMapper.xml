@@ -78,6 +78,13 @@
     id, name, remark, money, day, status, deploydate, supportmoney, supporter, completion, 
     memberid, createdate, follower
   </sql>
+  
+  
+  <!-- List<TProject> getIndexRecommendProject(); -->
+  <select id="getIndexRecommendProject" resultMap="BaseResultMap">
+  	select id, name, remark from t_project WHERE recommend=1 limit 3;
+  </select>
+  
   <select id="selectByExample" parameterType="com.itguigu.zcw.project.bean.TProjectExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

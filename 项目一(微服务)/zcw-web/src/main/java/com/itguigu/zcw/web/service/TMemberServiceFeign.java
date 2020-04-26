@@ -14,6 +14,7 @@ import com.itguigu.zcw.web.exception.TMemberServiceFeignExceptionHandler;
 public interface TMemberServiceFeign {
 	
 	/**
+	 * 用户登录
 	 * 注意前面有 /user 前缀
 	 * @param loginacct
 	 * @param password
@@ -21,4 +22,5 @@ public interface TMemberServiceFeign {
 	 */
 	@PostMapping("/user/login")
 	public AppResponse<UserLoginRespVo> login(@RequestParam("loginacct") String loginacct, @RequestParam("password") String password);
+
 }

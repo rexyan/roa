@@ -1,5 +1,7 @@
 package com.itguigu.zcw.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itguigu.zcw.commons.bean.TAdvertisement;
 import com.itguigu.zcw.commons.vo.resp.AppResponse;
+import com.itguigu.zcw.commons.vo.resp.IndexRecommendRespVo;
 import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
 import com.itguigu.zcw.web.service.TMemberServiceFeign;
+import com.itguigu.zcw.web.service.TProjectServiceFeign;
 
 @Controller
 public class DispatcherController {
@@ -19,12 +24,22 @@ public class DispatcherController {
 	@Autowired
 	TMemberServiceFeign memberServiceFeign;
 	
+	@Autowired
+	TProjectServiceFeign projectServiceFeign;
+	
 	/**
 	 * 首页
 	 * @return
 	 */
-	@GetMapping("/index")
-	public String index() {
+	@GetMapping(value = {"/index", "/"})
+	public String index(Model model) {
+		// 查询首页广告信息
+		AppResponse<List<TAdvertisement>> adv = projectServiceFeign.adv();
+		model.addAttribute("adv", adv.getData());
+		
+		// 查询推荐项目
+		AppResponse<List<IndexRecommendRespVo>> indexRecommend = projectServiceFeign.indexRecommend();
+		model.addAttribute("indexRecommend", indexRecommend.getData());
 		return "index";
 	}
 	

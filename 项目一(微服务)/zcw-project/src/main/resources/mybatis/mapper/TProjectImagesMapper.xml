@@ -68,6 +68,13 @@
   <sql id="Base_Column_List">
     id, projectid, imgurl, imgtype
   </sql>
+  
+  <!-- String getImgUrl(Integer id); -->
+  <select id="getImgUrl" resultType="String">
+  	select imgurl from t_project_images WHERE projectid = #{id} and imgtype=0
+  </select>
+  	
+  
   <select id="selectByExample" parameterType="com.itguigu.zcw.project.bean.TProjectImagesExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
