@@ -1,9 +1,9 @@
-package com.itguigu.zcw.commons.vo.resp;
+package com.itguigu.zcw.project.vo.req;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.itguigu.zcw.commons.bean.TReturn;
+import com.itguigu.zcw.project.bean.TReturn;
 
 import lombok.Data;
 import lombok.ToString;

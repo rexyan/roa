@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itguigu.zcw.commons.bean.TReturn;
 import com.itguigu.zcw.commons.vo.resp.IndexRecommendRespVo;
 import com.itguigu.zcw.project.bean.TAdvertisement;
 import com.itguigu.zcw.project.bean.TAdvertisementExample;
@@ -15,6 +14,7 @@ import com.itguigu.zcw.project.bean.TProject;
 import com.itguigu.zcw.project.bean.TProjectImages;
 import com.itguigu.zcw.project.bean.TProjectImagesExample;
 import com.itguigu.zcw.project.bean.TProjectImagesExample.Criteria;
+import com.itguigu.zcw.project.bean.TReturn;
 import com.itguigu.zcw.project.bean.TReturnExample;
 import com.itguigu.zcw.project.mapper.TAdvertisementMapper;
 import com.itguigu.zcw.project.mapper.TProjectImagesMapper;
@@ -81,6 +81,11 @@ public class TProjectInfoServiceImpl implements TProjectInfoService {
 		tReturnExample.createCriteria().andProjectidEqualTo(projectId);
 		List<TReturn> projectReturnList = returnMapper.selectByExample(tReturnExample);
 		return projectReturnList;
+	}
+
+	@Override
+	public TReturn getProjectReturnInfoById(Integer returnId) {
+		return returnMapper.selectByPrimaryKey(returnId);
 	}
 
 }

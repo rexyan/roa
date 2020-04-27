@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.itguigu.zcw.commons.bean.TAdvertisement;
 import com.itguigu.zcw.commons.vo.resp.AppResponse;
 import com.itguigu.zcw.commons.vo.resp.IndexRecommendRespVo;
-import com.itguigu.zcw.commons.vo.resp.ProjectDetailRepVo;
+import com.itguigu.zcw.commons.vo.resp.ReturnPayConfirmRespVo;
 import com.itguigu.zcw.web.exception.TProjectServiceFeignExceptionHandler;
+import com.itguigu.zcw.web.vo.req.ProjectDetailRepVo;
 
 @FeignClient(value = "SCW-PROJECT", fallback = TProjectServiceFeignExceptionHandler.class)
 public interface TProjectServiceFeign {
@@ -35,4 +36,13 @@ public interface TProjectServiceFeign {
 	 */
 	@GetMapping("/project/info/detail/{projectId}")
 	public AppResponse<ProjectDetailRepVo> detail(@PathVariable("projectId") Integer projectId);
+	
+	/**
+	 * 回报页面数据回显
+	 * @param projectId
+	 * @param returnId
+	 * @return
+	 */
+	@GetMapping("/project/confirm/return/{projectId}/{returnId}")
+	public AppResponse<ReturnPayConfirmRespVo> confirmReturn(@PathVariable("projectId")Integer projectId,  @PathVariable("returnId")Integer returnId);
 }

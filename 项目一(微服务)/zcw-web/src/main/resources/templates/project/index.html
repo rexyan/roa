@@ -180,8 +180,8 @@
 						<div class="panel-body">
                             <p>配送费用：<span th:text="${projectReturn.freight==0?'包邮':projectReturn.freight}"></span></p>
                             <p>预计发放时间：项目筹款成功后的 [[${projectReturn.rtndate}]] 天内</p>
-                            <button type="button" class="btn  btn-warning btn-lg" onclick="window.location.href='pay-step-1.html'">支持</button>
-                            <br><br>
+                            <button type="button" class="suportReturnBtn btn  btn-warning btn-lg" th:href="@{/project/support/{projectId}/{returnId}(projectId=${projectDetail.id}, returnId=${projectReturn.id})}">支持</button>
+				            <br><br>
                             <p>[[${projectReturn.content}]]</p>
 						</div>
 					</div>
@@ -206,7 +206,7 @@
 </div>
     
 
-         <span th:include="~{include/include::#basicFooter}"></span>
+    <span th:include="~{include/include::#basicFooter}"></span>
       
     </div> <!-- /container -->
     
@@ -231,7 +231,7 @@
 							<h2 th:id="|section-${status.count}|" style="border-bottom:1px dashed #ddd;" ><span style="font-size:20px;font-weight:bold;">￥ [[${projectReturn.supportmoney}]]</span><span style="font-size:12px;margin-left:60px;"><span th:text="${projectReturn.signalpurchase==0?'无限额':'每人限额数: ' + projectReturn.signalpurchase}"></span>，223位支持者</span></h2>
 				            <p>配送费用：<span th:text="${projectReturn.freight==0?'包邮':projectReturn.freight}"></span></p>
 				            <p>预计发放时间：项目筹款成功后的 [[${projectReturn.rtndate}]] 天内</p>
-				            <button type="button" class="btn  btn-warning btn-lg " onclick="window.location.href='pay-step-1.html'">支持</button>
+				            <button type="button" class="suportReturnBtn btn  btn-warning btn-lg" th:href="@{/project/support/{projectId}/{returnId}(projectId=${projectDetail.id}, returnId=${projectReturn.id})}">支持</button>
 				            <br><br>
 				            <p> [[${projectReturn.content}]] </p>
 				            <hr>
@@ -250,6 +250,10 @@
     $(".prjtip img").css("cursor", "pointer");
     $(".prjtip img").click(function(){
         window.location.href = 'project.html';
+    });
+    
+    $(".suportReturnBtn").click(function(){
+        window.location.href = $(this).attr("href");
     });
 	</script>
   </body>

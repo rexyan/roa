@@ -2,11 +2,11 @@ package com.itguigu.zcw.project.service;
 
 import java.util.List;
 
-import com.itguigu.zcw.commons.bean.TReturn;
 import com.itguigu.zcw.commons.vo.resp.IndexRecommendRespVo;
 import com.itguigu.zcw.project.bean.TAdvertisement;
 import com.itguigu.zcw.project.bean.TProject;
 import com.itguigu.zcw.project.bean.TProjectImages;
+import com.itguigu.zcw.project.bean.TReturn;
 
 public interface TProjectInfoService {
 	
@@ -42,5 +42,12 @@ public interface TProjectInfoService {
 	 * @return
 	 */
 	List<TReturn> getProjectReturnInfo(Integer projectId);
+	
+	/**
+	 * 根据 returnId 获取回报信息
+	 * @param returnId
+	 * @return
+	 */
+	TReturn getProjectReturnInfoById(Integer returnId);
 
 }

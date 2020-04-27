@@ -2,6 +2,7 @@ package com.itguigu.zcw.user.service;
 
 import com.itguigu.zcw.commons.vo.req.UserRegistVo;
 import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
+import com.itguigu.zcw.user.bean.TMember;
 
 public interface UserService {
 	
@@ -33,5 +34,12 @@ public interface UserService {
 	 * @return
 	 */
 	UserLoginRespVo userLogin(String loginacct, String password);
+	
+	/**
+	 * 根据 ID 获取用户信息
+	 * @param memberId
+	 * @return
+	 */
+	TMember getMemberById(Integer memberId);
 
 }

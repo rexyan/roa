@@ -9,6 +9,8 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,7 @@ import com.itguigu.zcw.commons.validation.ValidationEmail;
 import com.itguigu.zcw.commons.vo.req.UserRegistVo;
 import com.itguigu.zcw.commons.vo.resp.AppResponse;
 import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
+import com.itguigu.zcw.user.bean.TMember;
 import com.itguigu.zcw.user.components.SmsTemplate;
 import com.itguigu.zcw.user.service.UserService;
 
@@ -150,7 +153,15 @@ public class UserLoginRegistController {
 			return AppResponse.fail(status.getMsg());
 		}
 	}
+	
+	@ApiOperation(value = "获取用户信息")
+	@GetMapping("/info/{memberId}")
+	public AppResponse<TMember> getMemberInfo(@PathVariable("memberId") Integer memberId) {
+		TMember tMember = userService.getMemberById(memberId);
+		return AppResponse.ok(tMember);
+	}
 
+	
 	@ApiOperation(value = "验证短信验证码")
 	@PostMapping("/valide")
 	public AppResponse<Object> valide() {

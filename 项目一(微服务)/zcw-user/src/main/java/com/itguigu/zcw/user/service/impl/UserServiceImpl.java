@@ -119,4 +119,9 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@Override
+	public TMember getMemberById(Integer memberId) {
+		return memberMapper.selectByPrimaryKey(memberId);
+	}
+
 }
