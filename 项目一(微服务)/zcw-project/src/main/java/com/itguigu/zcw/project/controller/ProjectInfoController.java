@@ -135,7 +135,6 @@ public class ProjectInfoController {
 		log.info("获取项目回报确认信息:{}", returnPayConfirmRespVo);
 		return AppResponse.ok(returnPayConfirmRespVo);
 	}
-
 	
 	@ApiOperation(value = "获取首页分类推荐项目")
 	@GetMapping("/recommend/type")

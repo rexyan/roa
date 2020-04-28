@@ -2,28 +2,19 @@ package com.itguigu.zcw.user.controller;
 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.druid.support.logging.Log;
-import com.itguigu.zcw.commons.enums.AccttypeEnume;
-import com.itguigu.zcw.commons.enums.AuthEnume;
-import com.itguigu.zcw.commons.enums.UserTypeEnume;
 import com.itguigu.zcw.commons.validation.ValidationEmail;
 import com.itguigu.zcw.commons.vo.req.UserRegistVo;
 import com.itguigu.zcw.commons.vo.resp.AppResponse;
 import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
-import com.itguigu.zcw.user.bean.TMember;
 import com.itguigu.zcw.user.components.SmsTemplate;
 import com.itguigu.zcw.user.service.UserService;
 
@@ -32,7 +23,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.description.ModifierReviewable.OfAbstraction;
 
 @Slf4j
 @Api(tags = "用户登陆注册模块")
@@ -153,14 +143,6 @@ public class UserLoginRegistController {
 			return AppResponse.fail(status.getMsg());
 		}
 	}
-	
-	@ApiOperation(value = "获取用户信息")
-	@GetMapping("/info/{memberId}")
-	public AppResponse<TMember> getMemberInfo(@PathVariable("memberId") Integer memberId) {
-		TMember tMember = userService.getMemberById(memberId);
-		return AppResponse.ok(tMember);
-	}
-
 	
 	@ApiOperation(value = "验证短信验证码")
 	@PostMapping("/valide")

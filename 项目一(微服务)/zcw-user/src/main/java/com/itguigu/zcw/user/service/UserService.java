@@ -1,8 +1,11 @@
 package com.itguigu.zcw.user.service;
 
+import java.util.List;
+
 import com.itguigu.zcw.commons.vo.req.UserRegistVo;
 import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
 import com.itguigu.zcw.user.bean.TMember;
+import com.itguigu.zcw.user.bean.TMemberAddress;
 
 public interface UserService {
 	
@@ -41,5 +44,12 @@ public interface UserService {
 	 * @return
 	 */
 	TMember getMemberById(Integer memberId);
+	
+	/**
+	 * 根据 accessToken 查询用户收获地址信息
+	 * @param accessToken
+	 * @return
+	 */
+	List<TMemberAddress> getMemberAddress(String accessToken);
 
 }

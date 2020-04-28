@@ -11,14 +11,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.itguigu.zcw.commons.vo.req.UserRegistVo;
 import com.itguigu.zcw.commons.vo.resp.UserLoginRespVo;
 import com.itguigu.zcw.user.bean.TMember;
+import com.itguigu.zcw.user.bean.TMemberAddress;
+import com.itguigu.zcw.user.bean.TMemberAddressExample;
 import com.itguigu.zcw.user.bean.TMemberExample;
 import com.itguigu.zcw.user.bean.TMemberExample.Criteria;
 import com.itguigu.zcw.user.enums.UserExceptionEnum;
 import com.itguigu.zcw.user.exception.UserException;
+import com.itguigu.zcw.user.mapper.TMemberAddressMapper;
 import com.itguigu.zcw.user.mapper.TMemberMapper;
 import com.itguigu.zcw.user.service.UserService;
 
@@ -30,6 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	TMemberMapper memberMapper;
+	
+	@Autowired
+	TMemberAddressMapper memberAddressMapper;
 	
 	@Autowired
 	StringRedisTemplate stringRedisTemplate;
@@ -122,6 +129,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public TMember getMemberById(Integer memberId) {
 		return memberMapper.selectByPrimaryKey(memberId);
+	}
+
+	@Override
+	public List<TMemberAddress> getMemberAddress(String accessToken) {
+		if(StringUtils.isEmpty(accessToken)) {
+			return null;
+		}
+		String memberId = stringRedisTemplate.opsForValue().get(accessToken);
+		TMemberAddressExample tMemberAddressExample = new TMemberAddressExample();
+		tMemberAddressExample.createCriteria().andMemberidEqualTo(Integer.parseInt(memberId));
+		List<TMemberAddress> memberAddressList = memberAddressMapper.selectByExample(tMemberAddressExample);
+		return memberAddressList;
 	}
 
 }
