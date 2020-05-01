@@ -75,6 +75,7 @@
 	<div th:include="~{include/include::#basicNavbar}"></div>
 
     <div class="container theme-showcase" role="main">        
+        <form th:action="@{/order/pay}" method="POST" id="orderPayForm">
         
         <div class="container">
             <div class="row clearfix">
@@ -157,19 +158,15 @@
                                     </blockquote>
                                 </div>
                                 <div class="col-md-12 column" style="padding:0 120px;">
-                                    <div class="radio">
+                                
+                                    <div class="radio" th:each="add:${memberAddress}" onclick="$('.addressPanel').hide()">
                                       <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                                        xxxxx 188****3342 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                        <input type="radio" name="address" th:value="${add.id}" checked>
+                                        [[${add.address}]]
                                       </label>
                                     </div>
-                                    <div class="radio">
-                                      <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                        xxxxx 188****3342 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                      </label>
-                                    </div>
-                                    <div class="radio">
+                                   
+                                    <div class="radio" onclick="$('.addressPanel').show()">
                                       <label>
                                         <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
                                         新地址
@@ -180,10 +177,9 @@
                                              border-top-color: rgba(221, 221, 221, 0);
                                              border-right-color: rgba(221, 221, 221, 0);
                                     "></div>
-                                    <div class="panel panel-default" style="border-style: dashed;background-color:#eceeef">
+                                    <div class="addressPanel panel panel-default" style="border-style: dashed;background-color:#eceeef;display:none" >
                                       <div class="panel-body">
                                             <div class="col-md-12 column" >
-                                                <form class="form-horizontal">
                                                   <div class="form-group">
                                                     <label class="col-sm-2 control-label">收货人（*）</label>
                                                     <div class="col-sm-10">
@@ -208,7 +204,6 @@
                                                           <button type="button" class="btn btn-primary">确认配送信息</button>
                                                     </div>
                                                   </div>
-                                                </form>
                                             </div>
                                       </div>
                                     </div>
@@ -225,15 +220,15 @@
                                     </blockquote>
                                 </div>
                                 <div class="col-md-12 column" style="padding:0 120px;">
-                                    <div class="radio">
+                                    <div class="radio" onclick="$('.needTicket').hide()">
                                       <label>
-                                        <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+                                        <input type="radio" name="invoice" value="0" checked>
                                         无需发票
                                       </label>
                                     </div>
-                                    <div class="radio">
+                                    <div class="radio" onclick="$('.needTicket').show()">
                                       <label>
-                                        <input type="radio" name="optionsRadios1" id="optionsRadios2" value="option2">
+                                        <input type="radio" name="invoice" value="1">
                                         需要发票
                                       </label>
                                     </div>
@@ -242,17 +237,15 @@
                                              border-top-color: rgba(221, 221, 221, 0);
                                              border-right-color: rgba(221, 221, 221, 0);
                                     "></div>
-                                    <div class="panel panel-default" style="border-style: dashed;background-color:#eceeef">
+                                    <div class="needTicket panel panel-default" style="border-style: dashed;background-color:#eceeef;display:none">
                                       <div class="panel-body">
                                             <div class="col-md-12 column" >
-                                                <form class="form-horizontal">
                                                   <div class="form-group">
                                                     <label class="col-sm-2 control-label">发票抬头（*）</label>
                                                     <div class="col-sm-10">
-                                                      <input type="text" class="form-control" style="width:200px;" placeholder="个人" >
+                                                      <input name="invoictitle" type="text" class="form-control" style="width:200px;" placeholder="个人" >
                                                     </div>
                                                   </div>
-                                                </form>
                                             </div>
                                       </div>
                                     </div>
@@ -281,13 +274,13 @@
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr>
-                                          <td>活性富氢净水直饮机</td>
-                                          <td>深圳市博实永道电子商务有限公司</td>
-                                          <td>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</td>
-                                          <td>1</td>
-                                          <td style="color:#F60">￥ 1.00</td>
-                                          <td>免运费</td>
+                                      	<tr>
+                                          <td>[[${session.projectConfirmInfo.projectName}]]</td>
+                                          <td>[[${session.projectConfirmInfo.memberName}]]</td>
+                                          <td>[[${session.projectConfirmInfo.projectRemark}]]</td>
+                                          <td><input type="text" class="form-control" style="width:60px;" readonly="readonly" id="buyNum" th:value="${session.projectConfirmInfo.num}"></td>
+                                          <td style="color:#F60" id="price">[[${session.projectConfirmInfo.price}]]</td>
+                                          <td><span id="freight" th:text="${session.projectConfirmInfo.freight==0?'包邮':session.projectConfirmInfo.freight}"></span></td>
                                         </tr>
                                       </tbody>
                                     </table>
@@ -311,10 +304,11 @@
                                 <div class="col-md-12 column">
                                         <div class="alert alert-warning alert-dismissable" style="text-align:right; border:2px solid #ffc287;">
                                             <ul style="list-style:none;" >
-                                                <li style="margin-top:10px;">支持金额：<span style="color:red;">￥1.00</span></li>
-                                                <li style="margin-top:10px;">配送费用：<span style="color:red;">￥0.00</span></li>
-                                                <li style="margin-top:10px;">优惠金额：<span style="color:red;">-￥0.00</span></li>
-                                                <li style="margin-top:10px;margin-bottom:10px;"><h2>支付总金额：<span style="color:red;">￥1.00</span></h2></li>
+                                                <li style="margin-top:10px;">支持金额：<span style="color:red;">[[${session.projectConfirmInfo.price}]]</span></li>
+                                                <li style="margin-top:10px;">支持数量：<span style="color:red;">[[${session.projectConfirmInfo.num}]]</span></li>
+                                                <li style="margin-top:10px;">配送费用：<span style="color:red;">[[${session.projectConfirmInfo.freight}]]</span></li>
+                                                <li style="margin-top:10px;">优惠金额：<span style="color:red;">0</span></li>
+                                                <li style="margin-top:10px;margin-bottom:10px;"><h2>支付总金额：<span style="color:red;">[[${session.projectConfirmInfo.totalPrice}]]</span></h2></li>
                                                 <li style="margin-top:10px;padding:5px;border:1px solid #F00;display:initial;background:#FFF;">
                                                     <i class="glyphicon glyphicon-info-sign"></i> <strong>您需要先 <a href="#address">设置配送信息</a> ,再提交订单</strong> 
                                                 </li>
@@ -322,12 +316,12 @@
                                                 请在下单后15分钟内付款，否则您的订单会被自动关闭。
                                                 </li>
                                                 <li style="margin-top:10px;">
-                                                <button disabled="disabled" type="button" class="btn btn-warning btn-lg" onclick="window.location.href='pay-step-3.html'"><i class="glyphicon glyphicon-credit-card"></i> 立即付款</button>
+                                                <button type="button" disabled="disabled" class="payButton btn btn-warning btn-lg"><i class="glyphicon glyphicon-credit-card"></i> 立即付款</button>
                                                 </li>
                                                 <li style="margin-top:10px;">
                                                   <div class="checkbox">
                                                     <label>
-                                                      <input type="checkbox" checked> 我已了解风险和规则
+                                                      <input type="checkbox" id="agreementCheckbox"> 我已了解风险和规则
                                                     </label>
                                                   </div>
                                                 </li>
@@ -362,7 +356,7 @@
                 </div>
             </div>
         </div>
-        
+        </form>
 
     <span th:include="~{include/include::#basicFooter}"></span>
       
@@ -373,6 +367,19 @@
 		$('#myTab a').click(function (e) {
 		  e.preventDefault()
 		  $(this).tab('show')
+		})
+		
+		// 我已了解风险和规则
+		$("#agreementCheckbox").click(function(){
+			if($("input[type='checkbox']").is(':checked')){
+				$(".payButton").attr("disabled",false);
+			}else{
+				$(".payButton").attr("disabled",true);
+			}
+		})
+		
+		$(".payButton").click(function(){
+			$("#orderPayForm").submit()
 		})
 	</script>
   </body>

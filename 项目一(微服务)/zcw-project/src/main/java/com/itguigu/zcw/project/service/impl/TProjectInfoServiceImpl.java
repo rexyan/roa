@@ -88,4 +88,9 @@ public class TProjectInfoServiceImpl implements TProjectInfoService {
 		return returnMapper.selectByPrimaryKey(returnId);
 	}
 
+	@Override
+	public TReturn getReturnDetailById(Integer returnId) {
+		return returnMapper.selectByPrimaryKey(returnId);
+	}
+
 }

@@ -33,6 +33,6 @@ public interface TMemberServiceFeign {
 	 * @param accessToken
 	 * @return
 	 */
-	@GetMapping("/info/address{accessToken}")
+	@GetMapping("/user/info/address/{accessToken}")
 	public AppResponse<List<TMemberAddress>> getMemberAddress(@PathVariable("accessToken") String accessToken);
 }

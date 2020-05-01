@@ -44,12 +44,12 @@
 			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			  <div class="container">
 				<div class="navbar-header">
-				  <a class="navbar-brand" href="#" th:href="@{/}" style="font-size:22px;">尚筹网-创意产品众筹平台</a>
+				  <a class="navbar-brand" th:href="@{/}" style="font-size:22px;">众筹网-创意产品众筹平台</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse" style="float:right" th:if="${session.memeber} == null">
 	              <ul class="nav navbar-nav navbar-right">
-	                <li><a href="" th:href="@{/login}">登录</a></li>
-	                <li><a href="" th:href="@{/register}">注册</a></li>
+	                <li><a th:href="@{/login}">登录</a></li>
+	                <li><a th:href="@{/register}">注册</a></li>
 	              </ul>
 	            </div>
 	            <div id="navbar" class="navbar-collapse collapse" style="float:right" th:if="${session.memeber} != null">

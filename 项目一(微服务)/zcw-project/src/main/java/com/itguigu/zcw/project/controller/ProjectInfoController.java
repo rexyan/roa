@@ -136,6 +136,13 @@ public class ProjectInfoController {
 		return AppResponse.ok(returnPayConfirmRespVo);
 	}
 	
+	@ApiOperation(value = "根据回报 ID 查询回报详细信息")
+	@GetMapping("/return/detail/{returnId}")
+	public AppResponse<TReturn> getReturnDetailById(@PathVariable("returnId") Integer returnId) {
+		TReturn tReturn = projectInfoService.getReturnDetailById(returnId);
+		return AppResponse.ok(tReturn);
+	}
+	
 	@ApiOperation(value = "获取首页分类推荐项目")
 	@GetMapping("/recommend/type")
 	public AppResponse<Object> type() {

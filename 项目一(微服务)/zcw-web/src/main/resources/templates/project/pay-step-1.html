@@ -161,14 +161,14 @@
                                           <td>[[${confirmReturn.projectName}]]</td>
                                           <td>[[${confirmReturn.memberName}]]</td>
                                           <td>[[${confirmReturn.projectRemark}]]</td>
-                                          <td><input type="text" class="form-control" style="width:60px;" value="1"></td>
-                                          <td style="color:#F60">￥ [[${confirmReturn.price}]]</td>
-                                          <td><span th:text="${confirmReturn.freight==0?'包邮':confirmReturn.freight}"></span></td>
+                                          <td><input type="text" class="form-control" style="width:60px;" id="buyNum" value="1"></td>
+                                          <td style="color:#F60" id="price">[[${confirmReturn.price}]]</td>
+                                          <td><span id="freight" th:text="${confirmReturn.freight==0?'包邮':confirmReturn.freight}"></span></td>
                                         </tr>
                                       </tbody>
                                     </table>
                                     <div style="float:right;">
-                                    <p>总价(含运费)：<span style="font-size:16px;color:#F60;">￥[[${confirmReturn.totalPrice}]]</span></p>
+                                    <p>总价(含运费)：<span style="font-size:16px;color:#F60;" id="totalPrice">[[${confirmReturn.totalPrice}]]</span></p>
                                     <button type="button" class="confirmOrder btn btn-warning btn-lg" style="float:right;" th:href="@{/project/confirm/order}"><i class="glyphicon glyphicon-credit-card"></i> 去结算</button>
                                     </div>
                                 </div>
@@ -213,8 +213,17 @@
 		})
 		
 		$(".confirmOrder").click(function(){
-	        window.location.href = $(this).attr("href");
+	        window.location.href = $(this).attr("href") + "/" + $("#buyNum").val();
 	    });
+		
+		$("#buyNum").change(function(){
+			// 计算价格
+			  
+			var freight = $("#freight").text()
+			var price = $("#price").text()
+			var totalPrice = $("#buyNum").val() * price + freight * 1.0
+			$("#totalPrice").text(totalPrice)
+		})
 	</script>
   </body>
 </html>

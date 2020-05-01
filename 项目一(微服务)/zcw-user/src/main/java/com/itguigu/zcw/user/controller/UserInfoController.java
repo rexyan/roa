@@ -33,7 +33,7 @@ public class UserInfoController {
 	}
 
 	@ApiOperation(value = "获取用户收获地址信息")
-	@GetMapping("/info/address{accessToken}")
+	@GetMapping("/info/address/{accessToken}")
 	public AppResponse<List<TMemberAddress>> getMemberAddress(@PathVariable("accessToken") String accessToken) {
 		List<TMemberAddress> tMemberAddressList = userService.getMemberAddress(accessToken);
 		return AppResponse.ok(tMemberAddressList);

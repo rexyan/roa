@@ -1,5 +1,7 @@
 package com.itguigu.zcw.web.controller;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -7,8 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itguigu.zcw.commons.bean.TAdvertisement;
@@ -79,7 +83,12 @@ public class DispatcherController {
 		}
 		// 登录成功，保存 session 信息
 		session.setAttribute("memeber", loginRespVo);
-		return "redirect:/index";
+		String redirectUrl = (String) session.getAttribute("redirectUrl");
+		if(!StringUtils.isEmpty(redirectUrl)) {
+			return "redirect:" + redirectUrl;
+		}else {
+			return "redirect:/index";
+		}
 	}
 	
 	/**

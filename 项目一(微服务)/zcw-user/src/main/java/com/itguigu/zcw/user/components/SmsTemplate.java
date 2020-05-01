@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 发送手机短信验证码的模板类
+ * 
  * @author Administrator
  *
  */
@@ -23,21 +24,21 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class SmsTemplate {
 	@Value("${sms.host}")
-	String host ;
-	
+	String host;
+
 	@Value("${sms.path}")
-	String path ;
-	
+	String path;
+
 	@Value("${sms.method}")
-	String method ;
-	
+	String method;
+
 	@Value("${sms.appcode}")
-	String appcode ;
-	
+	String appcode;
+
 	public AppResponse<String> sendCode(Map<String, String> querys) {
-		
+
 		log.debug("开始发送短信-参数：{}", querys);
-		
+
 		Map<String, String> headers = new HashMap<String, String>();
 		// 最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
 		headers.put("Authorization", "APPCODE " + appcode);
@@ -51,9 +52,9 @@ public class SmsTemplate {
 			// 获取response的body
 			HttpEntity entity = response.getEntity();
 			System.out.println(EntityUtils.toString(response.getEntity()));
-			
-			log.debug("发送短信-成功：{},{}", querys.get("mobile"),querys.get("param"));
-			
+
+			log.debug("发送短信-成功：{},{}", querys.get("mobile"), querys.get("param"));
+
 			return AppResponse.ok("OK");
 		} catch (Exception e) {
 			log.debug("开始发送短信-失败：{}", e.getMessage());

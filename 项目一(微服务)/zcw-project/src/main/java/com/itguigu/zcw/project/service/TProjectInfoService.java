@@ -49,5 +49,12 @@ public interface TProjectInfoService {
 	 * @return
 	 */
 	TReturn getProjectReturnInfoById(Integer returnId);
+	
+	/**
+	 * 根据 回报ID 查询回报详细信息
+	 * @param returnId
+	 * @return
+	 */
+	TReturn getReturnDetailById(Integer returnId);
 
 }

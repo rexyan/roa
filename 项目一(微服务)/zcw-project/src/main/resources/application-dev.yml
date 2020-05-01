@@ -1,16 +1,12 @@
 spring:
   application:
-    name: SCW-USER
-    
+    name: SCW-PROJECT
   datasource:
     username: root
     password: 123456
     url: jdbc:mysql://127.0.0.1:3306/zcw?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
-  redis:  # 配置 Redis
-    host: 127.0.0.1
-    port: 6379
-
+ 
 mybatis: 
   config-location: classpath:/mybatis/mybatis-config.xml
   mapper-locations: classpath:/mybatis/mapper/*.xml
@@ -20,13 +16,25 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
-    appname: SCW-USER
+    appname: SCW-PROJECT
     prefer-ip-address: true
     
 server: 
-  port: 7000
-  
+  port: 7001
 
+  
 swagger2: 
      enable: true
      
+feign:
+  hystrix:
+    enabled: true
+    
+# OSS 配置
+oss: 
+  endpoint: oss-cn-shanghai.aliyuncs.com 
+  accessKeyId: LTAI4FqV5bfMAzN6KkTNWXN3
+  accessKeySecret: 13zoVLAlh5TjGCi5rCn0pJDiAOiimP
+  bucketName: osssssssss
+  uploadFolderName: zcw
+    

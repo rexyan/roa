@@ -3,6 +3,7 @@ package com.itguigu.zcw.web.exception;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,11 +28,10 @@ public class TMemberServiceFeignExceptionHandler implements TMemberServiceFeign 
 	}
 
 	@Override
-	public AppResponse<List<TMemberAddress>> getMemberAddress(String accessToken) {
+	public AppResponse<List<TMemberAddress>> getMemberAddress(@PathVariable("accessToken") String accessToken) {
 		AppResponse<List<TMemberAddress>> appResponse = AppResponse.fail(null);
 		appResponse.setMsg("远程服务调用失败");
 		log.error("远程服务: {} 调用失败", "SCW-USER");
 		return appResponse;
 	}
-
 }

@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: SCW-WEB
+  
+  # thymeleaf 配置
+  thymeleaf: 
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false #开发的时候禁用缓存
+  
+  # spring session 设置
+  session: 
+    # spring session 使用 redis
+    store-type: redis
+    # spring session 过期时间
+    timeout: 1800
+  
+  # 配置 Redis
+  redis:  
+    host: 127.0.0.1
+    port: 6379
+
+    # redis 连接数设置 
+    jedis: 
+      pool: 
+         max-idle: 100 
+
+  
+eureka: 
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    appname: SCW-WEB
+    prefer-ip-address: true
+    
+server: 
+  port: 80
+  
+feign:
+  hystrix:
+    enabled: true
+    
+alipay: 
+  app_id: 2016080300160299
+  merchant_private_key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDY1mdMb5ShpWw0g1sb2WZ4FvKDO6e5ZAgWjai7Rp8qpF7Y+07bpVqgoP5VDuWWLBSp28+D3POzmsCEIXYOtMRuD7SFpWjpL3zOIGA/b0AbNWVL5ET+z1MnM/IXJYrZpglYITOcSHv+qsl9Rd2FrfCK/TiUhlDqbrWSAl7Mow2tsbes1BeTZk6N1BdHIsAXUH9ZZeP76+Bm6uWk6fdArd2zwV+DmEzedQAfCSn/zPC4VzX1bsK2p5KWK+kvO+mREKysctFI9PDasjAfQX6hXiIgtXadFWgQH1k+/J5e3mpcdYAx0YBkWq+H1dTEyyw8nbXXOsg7UQP0P3IR+epfgfWFAgMBAAECggEAMkLoaNBIXHuyrC1yde8bkGSJTCAMza1BLrEhVl+VT1YQYi1GZyVZ73fB3Ed6sid/lqvL2x3hI1WQoE/9RIVkLrrXNk9UFREb1c+tX6bS7jufQkskLwgxlxm0WOcr2y1gZxwzEVu/2hUOZUpHgdACvMTbU5oasWx+C90eykJVTlhBCWYqTl/+Rem+hd8ZTaFR95q074DAISOIlZQKZanvcRiTHUctT5Hpu2ywvDlRwucXX8U1Es7YVO+Kp/CQEhC8NxCT30jhNvzyW6uLs5ocDSfw9rXQ34ARl6+M9xIw4uBH0iVOBaOWTuhm651xoR1IPgQtJ2wZBY/AK0ILQqbjQQKBgQD28iz1A000e1Hp3y3TDHe+IO4tMh7z7UrCG1zAVnUi78GPMSHN5g2LtqkE+n+SjCjjfhlxzm+rYmdTWlnJlB3XXEStNmMQghtT8dZWXGAml8X4m9B/kZqeiz+5lpKIx9RgyBWJdjq2Ixd3dBFxAr51FptoKFZnHI4VCOn7x2qu8QKBgQDgyaGHOmZxJgou5UIjpc7V7tz8ZpSpK3RT/DPhzM8h802D4jB7hRkwRODBzA4FaK6yVwjtnUdNt5ZIWrxXqCKjTLICcCdUPXRomG5RuR99hwO2cs4s6IkxjBDOW9EhngwA9EGZSLpw97LbgOH0AhfaY0nmDhIdJKj+EuInK/LX1QKBgQDKUEY8xWOvJ4lIjavBSGmhvuDi7jklprakqD4o5aw53ys44QvM4DkgyZlXltKFgYbOOjUmY/Zg9tGoHFGLMGnyUomBTxmCINW6xFrRjgTIGXf74cvDd8qxMWwX5CBRJ0X7tHDQmagoKD/FgbX4XEMlMkxH3SRMfbx5xz/LIuloQQKBgFT3Yfr/dCFow4ieV7WpwtjShO1SyPZ42mu0dNfw1op6sN4c7T6DPNYl8t7OBq68tuvqQhGu1Xjm4ANRaMepYg5fuxl40yTgZdPzah+x3dlQ43JfStdmvhTgYKnfwtj2KItjyDfsaayxtAWMXdwhvmpqBVDUGLyzUr1W3ez4i75RAoGBAOiUmSds19my+8m7yS8mb2s2qojBEEH9xLu2TEMlyBNUMNDBdDCMinaR/ppxHKBMpMjFhDMsPz4W5K2GLzJ1cG37DnnprUGSYeR8x0+cxoCpGBfSI31DjRRj3DmT/gAIKXhP0mUul5f7SAMHcI7SBrvr6b+rBCc9zu85471LZVCX
+  alipay_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr9Bz1pkvs0KteX4DbW+JZz6SKe9j1/DF/WET05R8OamMDq39xz1KFRjsbsLk3mvQAN3N19vLijLHFxEdEpSPYlnC2V6DDGvMMSf84Ga5vYzf5qvarjEGM/56aArzYqcG7ZRnPMu0IPogbD/hksaoZ4twEb8YVKHKDwovmvOu2gH6VDw9khL5tNdOIRIPRc7B4WddOANW8qt2iaM+7tOpxtP9x7eRaWfFdnff2HNB+BT+3jRqaRp7up7b7KRNA1/+tmy1aVF1y2voOZnXv0Snpe2qzmEVf6dXnCkDTJtW+dwENDEQ3ha07c+fzdOPl+e7TeiKC3QCA6Ax612jZ5UrEQIDAQAB
+  notify_url: http://zcw.com/order/payAsync
+  return_url: http://zcw.com/member/order
+  sign_type: RSA2
+  charset: utf-8
+  gatewayUrl: https://openapi.alipaydev.com/gateway.do
+
+  
+     
