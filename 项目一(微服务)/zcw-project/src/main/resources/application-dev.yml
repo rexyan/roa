@@ -32,9 +32,9 @@ feign:
     
 # OSS 配置
 oss: 
-  endpoint: oss-cn-shanghai.aliyuncs.com 
-  accessKeyId: LTAI4FqV5bfMAzN6KkTNWXN3
-  accessKeySecret: 13zoVLAlh5TjGCi5rCn0pJDiAOiimP
-  bucketName: osssssssss
+  endpoint: oss-cn-hangzhou.aliyuncs.com 
+  accessKeyId: LTAI4FqVMigadjbKkTNWXN3
+  accessKeySecret: 13zoVLAKJAHDIUYGABFDI&34pJDiAOiimP
+  bucketName: osssssss
   uploadFolderName: zcw
     
