@@ -1,5 +1,6 @@
-package com.yanrs.mr.flowbean;
+package com.yanrs.mr.Partitioner;
 
+import com.yanrs.mr.flowbean.FlowBean;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -9,17 +10,17 @@ import java.io.IOException;
  * 输入 key 和 value 的类型分别为 Text 和 PartitionerFlowBean
  *
  */
-public class FlowBeanReducer extends Reducer <Text, FlowBean, Text, FlowBean>{
+public class PartitionerFlowBeanReducer extends Reducer <Text, PartitionerFlowBean, Text, PartitionerFlowBean>{
 
-    private FlowBean outValue = new FlowBean();
+    private PartitionerFlowBean outValue = new PartitionerFlowBean();
 
     @Override
-    protected void reduce(Text key, Iterable<FlowBean> values, Context context) throws IOException, InterruptedException {
+    protected void reduce(Text key, Iterable<PartitionerFlowBean> values, Context context) throws IOException, InterruptedException {
         // 累加每个手机号的上行流量和下行流量，并计算总流量
         long sumUpFlow = 0;
         long sumDownFlow = 0;
 
-        for (FlowBean flowBean: values) {
+        for (PartitionerFlowBean flowBean: values) {
             sumUpFlow += flowBean.getUpFlow();
             sumDownFlow += flowBean.getDownFlow();
         }

@@ -1,13 +1,14 @@
-package com.yanrs.mr.flowbean;
+package com.yanrs.mr.sort3;
 
 import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
 
-public class FlowBean implements Writable {
+public class FlowBeanSort3 implements WritableComparable<FlowBeanSort3> {
     private long upFlow;
     private long downFlow;
     private long sumFlow;
@@ -60,7 +61,7 @@ public class FlowBean implements Writable {
         this.sumFlow = sumFlow;
     }
 
-    public FlowBean() {
+    public FlowBeanSort3() {
     }
 
     @Override
@@ -71,4 +72,9 @@ public class FlowBean implements Writable {
                 ", sumFlow=" + sumFlow +
                 '}';
         }
+
+    @Override
+    public int compareTo(FlowBeanSort3 flowBeanSort3) {
+        return this.sumFlow -flowBeanSort3.getSumFlow() > 0?-1:1;
+    }
 }

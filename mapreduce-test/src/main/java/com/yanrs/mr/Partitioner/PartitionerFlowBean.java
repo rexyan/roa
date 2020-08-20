@@ -1,4 +1,4 @@
-package com.yanrs.mr.flowbean;
+package com.yanrs.mr.Partitioner;
 
 import org.apache.hadoop.io.Writable;
 
@@ -7,7 +7,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 
-public class FlowBean implements Writable {
+public class PartitionerFlowBean implements Writable {
     private long upFlow;
     private long downFlow;
     private long sumFlow;
@@ -60,7 +60,7 @@ public class FlowBean implements Writable {
         this.sumFlow = sumFlow;
     }
 
-    public FlowBean() {
+    public PartitionerFlowBean() {
     }
 
     @Override
