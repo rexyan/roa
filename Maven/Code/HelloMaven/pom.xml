@@ -16,7 +16,7 @@
 			<!-- 坐标 -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.9</version>
+			<version>4.13.1</version>
 			<!-- Jar 包使用范围 -->
 			<scope>test</scope>
 		</dependency>
